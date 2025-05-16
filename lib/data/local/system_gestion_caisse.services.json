@@ -1,0 +1,160 @@
+[{
+  "_id": {
+    "$oid": "681c86f93f837e884ca30cba"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "examens_de_laboratoire examens_de_laboratoire",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:05.504Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:05.504Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fa3f837e884ca30cbc"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:06.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:06.496Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fb3f837e884ca30cbe"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:07.312Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:07.312Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fb3f837e884ca30cc0"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:07.870Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:07.870Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fc3f837e884ca30cc2"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:08.249Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:08.249Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fc3f837e884ca30cc4"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:08.575Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:08.575Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fc3f837e884ca30cc6"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:08.881Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:08.881Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fd3f837e884ca30cc8"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:09.207Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:09.207Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fd3f837e884ca30cca"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:09.516Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "681c86fd3f837e884ca30ccc"
+  },
+  "category": "examens_de_laboratoire",
+  "label": "Main",
+  "tarif": "3300",
+  "icon": "type_prestation",
+  "createdAt": {
+    "$date": "2025-05-08T10:27:09.854Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T10:27:09.854Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,484 @@
+{
+
+   "resuts": [  {
+        "label": "Consultation de plus de 5",
+        "tarif": "800",
+        "icon": "medical_services",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Mise en observation des malades",
+        "tarif": "1100",
+        "icon": "visibility",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Hospitalisation",
+        "tarif": "3500",
+        "icon": "local_hospital",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Accouchement",
+        "tarif": "0",
+        "icon": "pregnant_woman",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Echographie obstétricale",
+        "tarif": "2500",
+        "icon": "pregnant_woman",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Echo pelvienne",
+        "tarif": "2100",
+        "icon": "healing",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie rachis lombo sacré",
+        "tarif": "2300",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie avant-bras F/P",
+        "tarif": "1700",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie cavum externe",
+        "tarif": "3000",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie cheville F/P",
+        "tarif": "1700",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie du coude F/P externe",
+        "tarif": "1700",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie du crane face et profil droit",
+        "tarif": "3000",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie du crane face et profil gauche",
+        "tarif": "3000",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie défilé maxillaire externe",
+        "tarif": "3000",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie épaule de F/P",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie genou F/P externe",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie grille costale profil droit et gauche",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie humérus transthoracique interne",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie humérus F/P",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie jambe F/P interne",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie jambe F/P externe",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie main F/P interne",
+        "tarif": "2400",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie main F/P externe",
+        "tarif": "2400",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie omoplate face",
+        "tarif": "2400",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie os propre du nez",
+        "tarif": "2400",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie pied F/P",
+        "tarif": "3300",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie poignet F/P intern",
+        "tarif": "1700",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie pulmonaire face",
+        "tarif": "2500",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie de torax F/P gauche",
+        "tarif": "2500",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie de torax F/P droit",
+        "tarif": "2500",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Télé coeur",
+        "tarif": "2500",
+        "icon": "favorite",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie rachis dorsal  F/P droit",
+        "tarif": "2400",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie rachis cervical F/P droit",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie rachis cervical F/P gauche",
+        "tarif": "2200",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie abdomen sans preparation (ASP)",
+        "tarif": "2500",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Radiographie du bassin face",
+        "tarif": "2900",
+        "icon": "straighten",
+        "category": "Type_prestation"
+    },
+    {
+        "label": "Acide urique",
+        "tarif": "1000",
+        "icon": "chemistry",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Albuminurie",
+        "tarif": "700",
+        "icon": "water_drop",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Antigène HBS",
+        "tarif": "900",
+        "icon": "medical_services",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "ASLO",
+        "tarif": "1100",
+        "icon": "healing",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Bêta HCG",
+        "tarif": "1600",
+        "icon": "pregnant_woman",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Calcémie",
+        "tarif": "1100",
+        "icon": "calculate",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Cholestérol",
+        "tarif": "1100",
+        "icon": "monitor_heart",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Créatinémie",
+        "tarif": "1100",
+        "icon": "fitness_center",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "CRP",
+        "tarif": "1100",
+        "icon": "insights",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Culot urinaire",
+        "tarif": "600",
+        "icon": "local_drink",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Glycémie",
+        "tarif": "800",
+        "icon": "sugar",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Glucosurie",
+        "tarif": "400",
+        "icon": "opacity",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Acide urique",
+        "tarif": "1000",
+        "icon": "chemistry",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Groupe sanguin Rhésus",
+        "tarif": "600",
+        "icon": "bloodtype",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Grossesse‑test",
+        "tarif": "700",
+        "icon": "pregnant_woman",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Hémoglobine glyquée",
+        "tarif": "1600",
+        "icon": "device_thermostat",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Hémogramme (NFS)",
+        "tarif": "1300",
+        "icon": "list_alt",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Sérologie hépatite virale C (HCV)",
+        "tarif": "1100",
+        "icon": "virus",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Ionogramme sanguin",
+        "tarif": "2400",
+        "icon": "scatter_plot",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Magnésémie",
+        "tarif": "1000",
+        "icon": "battery_charging_full",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Protéinuries",
+        "tarif": "500",
+        "icon": "protein",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Recherche de BK",
+        "tarif": "500",
+        "icon": "search",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Recherche kyste œufs et parasites",
+        "tarif": "500",
+        "icon": "bug_report",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Selle KOPA",
+        "tarif": "500",
+        "icon": "nature",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Test d’Emmel",
+        "tarif": "500",
+        "icon": "science",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Transaminase (ASAT et ALAT)",
+        "tarif": "2000",
+        "icon": "healing",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "VS",
+        "tarif": "500",
+        "icon": "speed",
+        "category": "examens_de_laboratoire"
+    },
+    {
+        "label": "Appendicectomie",
+        "tarif": "5900",
+        "icon": "surgical_mask",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Circoncision",
+        "tarif": "2500",
+        "icon": "content_cut",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Cure herniaire",
+        "tarif": "6300",
+        "icon": "healing",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Curetage",
+        "tarif": "2700",
+        "icon": "medical_services",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Décapage plaie",
+        "tarif": "6600",
+        "icon": "clean_hands",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Déchirure du col",
+        "tarif": "6600",
+        "icon": "healing",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Extraction corps étrangers RH",
+        "tarif": "6800",
+        "icon": "medical_cross",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Cure hydrocèle",
+        "tarif": "6800",
+        "icon": "opacity",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Herniorraphie",
+        "tarif": "6600",
+        "icon": "surgical",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Hystérectomie",
+        "tarif": "5500",
+        "icon": "female",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Kystectomie",
+        "tarif": "6900",
+        "icon": "biotech",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Lipome",
+        "tarif": "5300",
+        "icon": "fitness_center",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Myomectomie",
+        "tarif": "5500",
+        "icon": "healing",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Ovariectomie",
+        "tarif": "5500",
+        "icon": "female",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "PCPV",
+        "tarif": "6600",
+        "icon": "local_hospital",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Petite chirurgie",
+        "tarif": "2300",
+        "icon": "surgical",
+        "category": "actes_medico_chirurgicaux"
+    },
+    {
+        "label": "Réfection du périnée",
+        "tarif": "6700",
+        "icon": "healing",
+        "category": "actes_medico_chirurgicaux"
+    }
+]
+}
