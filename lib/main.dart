@@ -1,17 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:migo/utils/theme_config.dart';
-import 'package:migo/view/products/billing/billing.dart';
 import 'package:migo/view/splash.dart';
-import 'package:quick_actions/quick_actions.dart';
+// import 'package:quick_actions/quick_actions.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:migo/controller/auth_controller.dart';
+import 'package:migo/models/authManager.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+  // ---------- Initialisation de GetStorage (très important) ----------
+  await GetStorage.init();
+  print('▶ GetStorage initialisé ✅');
+
+  Get.put(AuthenticationManager());
+  Get.put(AuthController());
+  final authCtrl = Get.put(AuthController());
+  print('▶ AuthController initialisé dans main: $authCtrl');
+
+  // if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+  //   await windowManager.ensureInmbacho.web405@gmail.comitialized(); // Initialisation correcte
+
+  //   WindowOptions windowOptions = const WindowOptions(
+  //     minimumSize: Size(1310, 730), // Taille minimale
+  //     maximumSize: Size(1920, 1080), // Taille maximale (optionnel)
+  //     center: true, // Centrer la fenêtre au démarrage
+  //     fullScreen: false, // Empêcher le mode plein écran forcé
+  //   );
+
+  //   windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //     await windowManager.show();
+  //     await windowManager.setResizable(
+  //         true); // Autoriser le redimensionnement mais avec limites
+  //   });
+  // }
+
+  if (!kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
     await windowManager.ensureInitialized(); // Initialisation correcte
 
     WindowOptions windowOptions = const WindowOptions(
@@ -45,34 +73,6 @@ class _MiGoState extends State<MiGo> {
   @override
   void initState() {
     super.initState();
-
-    const QuickActions quickActions = QuickActions();
-    quickActions.initialize((String shortcutType) {
-      setState(() {
-        if (shortcutType != null) {
-          shortcut = shortcutType;
-        }
-      });
-    });
-
-    quickActions.setShortcutItems([
-      const ShortcutItem(
-        type: 'create_bill',
-        localizedTitle: 'Create a bill',
-        icon: 'icon_reciept_long',
-      ),
-    ]).then((void _) {
-      setState(() {
-        if (shortcut == 'no action set') {
-          shortcut = 'actions ready';
-        }
-      });
-    });
-    quickActions.initialize((type) {
-      if (type == 'create_bill') {
-        Get.to(() => const Billing(isMobile: true));
-      }
-    });
   }
 
   // This widget is the root of your application.

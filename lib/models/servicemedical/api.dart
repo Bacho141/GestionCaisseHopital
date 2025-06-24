@@ -1,4 +1,4 @@
-import 'package:migo/models/product/product.dart';
+import 'package:migo/models/servicemedical/servicemedical.dart';
 
 class ApiHandler {
   int? count;
@@ -12,12 +12,7 @@ class ApiHandler {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];
-    // if (json['results'] != null) {
-    //   allProducts = <Product>[];
-    //   json['results'].forEach((v) {
-    //     allProducts!.add(Product.fromJson(v)); //
-    //   });
-    // }
+    
     if (json['results'] != null && json['results'] is List) {
       allProducts = <Product>[];
       json['results'].forEach((v) {

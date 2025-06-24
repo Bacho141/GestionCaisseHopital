@@ -1,357 +1,175 @@
-// import 'package:migo/utils/custome_drive.dart';
-// import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-// import 'package:migo/view/responsive.dart';
-// import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-
-// class ManagementAgents extends StatefulWidget {
-//   const ManagementAgents({Key? key}) : super(key: key);
-
-//   @override
-//   State<ManagementAgents> createState() => _AgentsViewState();
-// }
-
-// class _AgentsViewState extends State<ManagementAgents> {
-
-//   // Simulated agent data
-//   List<AgentRow> rows = [
-//     AgentRow(nom: 'Dupont', prenom: 'Jean', adresse: '123 Rue A', telephone: '0123456789'),
-//     AgentRow(nom: 'Martin', prenom: 'Marie', adresse: '45 Avenue B', telephone: '0987654321'),
-//     AgentRow(nom: 'Durand', prenom: 'Paul', adresse: '78 Boulevard C', telephone: '0555123456'),
-//     AgentRow(nom: 'Dupont', prenom: 'Jean', adresse: '123 Rue A', telephone: '0123456789'),
-//     AgentRow(nom: 'Martin', prenom: 'Marie', adresse: '45 Avenue B', telephone: '0987654321'),
-//   ];
-//   late AgentDataGridSource _agentDataGridSource;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _agentDataGridSource = AgentDataGridSource(rows);
-//   }
-
-//   void updateRows(List<AgentRow> newRows) {
-//     setState(() {
-//       rows = newRows;
-//       _agentDataGridSource = AgentDataGridSource(rows);
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Responsive.isMobile(context)
-//         ? SingleChildScrollView(
-//             child: Container(
-//               width: 380,
-//               margin: const EdgeInsets.all(12),
-//               padding: const EdgeInsets.all(12),
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(10),
-//                 boxShadow: [
-//                   BoxShadow(
-//                     color: Colors.black.withOpacity(0.1),
-//                     blurRadius: 8,
-//                     spreadRadius: 2,
-//                   ),
-//                 ],
-//               ),
-//               child: Column(
-//                 children: [
-//                   Row(
-//                     children: [
-//                       Neumorphic(
-//                         style: NeumorphicStyle(
-//                           depth: 4,
-//                           intensity: 0.8,
-//                           shape: NeumorphicShape.flat,
-//                           boxShape: NeumorphicBoxShape.circle(),
-//                           color: const Color.fromARGB(152, 121, 23, 232),
-//                         ),
-//                         child: Padding(
-//                           padding: const EdgeInsets.all(10),
-//                           child: const Icon(
-//                             Icons.table_bar,
-//                             size: 20,
-//                             color: Color(0xFFFFFFFF),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 10),
-//                       const Text(
-//                         "Tableau des Agents",
-//                         style: TextStyle(
-//                           fontSize: 24,
-//                           fontWeight: FontWeight.w700,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   const SizedBox(height: 10),
-//                   const CustomDivider(),
-//                   const SizedBox(height: 20),
-//                   SizedBox(
-//                     height: 330,
-//                     child: SingleChildScrollView(
-//                       scrollDirection: Axis.horizontal,
-//                       child: SfDataGrid(
-//                         columnWidthMode: ColumnWidthMode.auto,
-//                         source: _agentDataGridSource,
-//                         columns: <GridColumn>[
-//                           GridColumn(
-//                             columnName: 'nom',
-//                             label: Container(
-//                               padding: const EdgeInsets.all(6),
-//                               alignment: Alignment.centerLeft,
-//                               child: const Text('Nom', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-//                             ),
-//                           ),
-//                           GridColumn(
-//                             columnName: 'prenom',
-//                             label: Container(
-//                               padding: const EdgeInsets.all(6),
-//                               alignment: Alignment.centerLeft,
-//                               child: const Text('Prenom', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-//                             ),
-//                           ),
-//                           GridColumn(
-//                             columnName: 'adresse',
-//                             label: Container(
-//                               padding: const EdgeInsets.all(6),
-//                               alignment: Alignment.centerLeft,
-//                               child: const Text('Adresse', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-//                             ),
-//                           ),
-//                           GridColumn(
-//                             columnName: 'telephone',
-//                             label: Container(
-//                               padding: const EdgeInsets.all(6),
-//                               alignment: Alignment.centerLeft,
-//                               child: const Text('Téléphone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-//                             ),
-//                           ),
-//                           GridColumn(
-//                             columnName: 'actions',
-//                             label: Container(
-//                               padding: const EdgeInsets.all(6),
-//                               alignment: Alignment.center,
-//                               child: const Text('Actions', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           )
-//         : Container(
-//             width: MediaQuery.of(context).size.width * 0.55,
-//             height: 500,
-//             margin: const EdgeInsets.all(16),
-//             padding: const EdgeInsets.all(16),
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.circular(12),
-//               boxShadow: [
-//                 BoxShadow(
-//                   color: Colors.black.withOpacity(0.1),
-//                   blurRadius: 10,
-//                   spreadRadius: 2,
-//                 ),
-//               ],
-//             ),
-//             child: Column(
-//               children: [
-//                 Row(
-//                   children: [
-//                     Neumorphic(
-//                       style: NeumorphicStyle(
-//                         depth: 4,
-//                         intensity: 0.8,
-//                         shape: NeumorphicShape.flat,
-//                         boxShape: NeumorphicBoxShape.circle(),
-//                         color: const Color.fromARGB(152, 121, 23, 232),
-//                       ),
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(10),
-//                         child: const Icon(
-//                           Icons.people,
-//                           size: 20,
-//                           color: Color(0xFFFFFFFF),
-//                         ),
-//                       ),
-//                     ),
-//                     const SizedBox(width: 10),
-//                     const Text(
-//                       "Tableau des Agents",
-//                       style: TextStyle(
-//                         fontSize: 24,
-//                         fontWeight: FontWeight.w700,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(height: 12),
-//                 const CustomDivider(),
-//                 const SizedBox(height: 30),
-//                 Container(
-//                   height: 320,
-//                   child: rows.isEmpty
-//                       ? Center(
-//                           child: Text(
-//                             'Aucune donnée trouvée !',
-//                             style: Theme.of(context).textTheme.titleMedium,
-//                           ),
-//                         )
-//                       : SfDataGrid(
-//                           columnWidthMode: ColumnWidthMode.fill,
-//                           source: _agentDataGridSource,
-//                           columns: <GridColumn>[
-//                             GridColumn(
-//                               columnName: 'nom',
-//                               label: Container(
-//                                 padding: const EdgeInsets.all(8),
-//                                 alignment: Alignment.centerLeft,
-//                                 child: const Text('Nom'),
-//                               ),
-//                             ),
-//                             GridColumn(
-//                               columnName: 'prenom',
-//                               label: Container(
-//                                 padding: const EdgeInsets.all(8),
-//                                 alignment: Alignment.centerLeft,
-//                                 child: const Text('Prenom'),
-//                               ),
-//                             ),
-//                             GridColumn(
-//                               columnName: 'adresse',
-//                               label: Container(
-//                                 padding: const EdgeInsets.all(8),
-//                                 alignment: Alignment.centerLeft,
-//                                 child: const Text('Adresse'),
-//                               ),
-//                             ),
-//                             GridColumn(
-//                               columnName: 'telephone',
-//                               label: Container(
-//                                 padding: const EdgeInsets.all(8),
-//                                 alignment: Alignment.centerLeft,
-//                                 child: const Text('Téléphone'),
-//                               ),
-//                             ),
-//                             GridColumn(
-//                               columnName: 'actions',
-//                               label: Container(
-//                                 padding: const EdgeInsets.all(8),
-//                                 alignment: Alignment.center,
-//                                 child: const Text('Actions'),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                 ),
-//               ],
-//             ),
-//           );
-//   }
-// }
-
-// class AgentDataGridSource extends DataGridSource {
-//   AgentDataGridSource(this.agentRows) {
-//     buildDataGridRows();
-//   }
-
-//   final List<AgentRow> agentRows;
-//   List<DataGridRow> _dataGridRows = [];
-
-//   void buildDataGridRows() {
-//     _dataGridRows = agentRows.map<DataGridRow>((r) {
-//       return DataGridRow(cells: [
-//         DataGridCell<String>(columnName: 'nom', value: r.nom),
-//         DataGridCell<String>(columnName: 'prenom', value: r.prenom),
-//         DataGridCell<String>(columnName: 'adresse', value: r.adresse),
-//         DataGridCell<String>(columnName: 'telephone', value: r.telephone),
-//         DataGridCell<Widget>(
-//           columnName: 'actions',
-//           value: Row(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               // Delete button (left)
-//               Container(
-//                 decoration: BoxDecoration(
-//                   color: Colors.red.withOpacity(0.1),
-//                   shape: BoxShape.circle,
-//                 ),
-//                 child: IconButton(
-//                   icon: Icon(Icons.delete, color: Colors.red),
-//                   onPressed: () {
-//                     // TODO: delete action
-//                   },
-//                 ),
-//               ),
-//               SizedBox(width: 8),
-//               // Edit button (right)
-//               Container(
-//                 decoration: BoxDecoration(
-//                   color: Colors.blue.withOpacity(0.1),
-//                   shape: BoxShape.circle,
-//                 ),
-//                 child: IconButton(
-//                   icon: Icon(Icons.edit, color: Colors.blue),
-//                   onPressed: () {
-//                     // TODO: edit action
-//                   },
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ]);
-//     }).toList();
-//   }
-
-//   @override
-//   List<DataGridRow> get rows => _dataGridRows;
-
-//   @override
-//   DataGridRowAdapter buildRow(DataGridRow row) {
-//     return DataGridRowAdapter(
-//       cells: row.getCells().map<Widget>((cell) {
-//         if (cell.columnName == 'actions') {
-//           return Container(
-//             padding: const EdgeInsets.all(8),
-//             alignment: Alignment.center,
-//             child: cell.value,
-//           );
-//         }
-//         return Container(
-//           alignment: Alignment.center,
-//           padding: const EdgeInsets.all(8),
-//           child: Text(cell.value.toString()),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
-
-// class AgentRow {
-//   final String nom;
-//   final String prenom;
-//   final String adresse;
-//   final String telephone;
-
-//   AgentRow({
-//     required this.nom,
-//     required this.prenom,
-//     required this.adresse,
-//     required this.telephone,
-//   });
-// }
-
+import 'package:get/get.dart';
 import 'package:migo/utils/custome_drive.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:migo/controller/controller_agent.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
+import 'package:migo/models/agent/agent_row.dart';
+import 'package:migo/models/agent/agent.dart';
+import 'package:migo/widgets/agent/agent_data_grid_source.dart';
+import 'package:flutter/services.dart'; 
+
+
+/// Affiche un dialog de confirmation Neumorphic avant suppression
+Future<bool?> showDeleteConfirmation(BuildContext context, AgentRow agent) {
+  return showDialog<bool>(
+  context: context,
+  builder: (_) => Dialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.5, // Max 50% de la hauteur de l'écran
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Empêche l'expansion inutile
+          children: [
+            const Text(
+              'Supprimer cet agent ?',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8), // Espacement réduit
+            Text(
+              '${agent.prenom} ${agent.nom}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16), // Espacement réduit
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                NeumorphicButton(
+                  style: NeumorphicStyle(depth: 4),
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6), // Taille réduite
+                    child: Text('Annuler'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                NeumorphicButton(
+                  style: NeumorphicStyle(color: Colors.redAccent, depth: 4),
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6), // Taille réduite
+                    child: Text('Supprimer', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+);
+
+}
+
+Future<void> showAgentPasswordModal(
+  BuildContext context,
+  String agentId,
+  AgentController controller,
+) async {
+  final _adminPwdCtrl = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? revealed;
+
+  await showDialog(
+    context: context,
+    builder: (_) => StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          title: const Text(
+            'Mot de passe administrateur',
+            style: TextStyle(
+              fontSize: 20, 
+              fontWeight: FontWeight.bold, 
+            ),
+          ),
+          scrollable: true,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // — Le formulaire de saisie du mot de passe admin
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _adminPwdCtrl,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Votre mot de passe',
+                  ),
+                  validator: (v) => v == null || v.isEmpty ? 'Requis' : null,
+                ),
+              ),
+              const SizedBox(height: 16),
+              // — Si le pwd est révélé, on l’affiche
+              if (revealed != null) ...[
+                SelectableText(
+                  'Mot de passe de l’agent : $revealed',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                TextButton.icon(
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: revealed!));
+                    Get.snackbar('Copié', 'Mot de passe copié');
+                  },
+                  icon: const Icon(Icons.copy, size: 16),
+                  label: const Text('Copier'),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Annuler'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (!_formKey.currentState!.validate()) return;
+                // <-- Ici on appelle revealPassword et on récupère le booléen
+                final ok = await controller.revealPassword(
+                  agentId,
+                  _adminPwdCtrl.text.trim(),
+                );
+                if (ok) {
+                  // Si tout est OK, on affiche le mot de passe
+                  setState(() {
+                    revealed = controller.revealedPassword.value;
+                  });
+                  Get.snackbar(
+                    'Succès',
+                    'Mot de passe correcte',
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.green.withOpacity(0.8),
+                    colorText: Colors.white,
+                  );
+                } else {
+                  // Sinon, on signale l'erreur
+                  Get.snackbar(
+                    'Erreur',
+                    'Impossible de révéler : vérifiez votre mot de passe admin.',
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.redAccent.withOpacity(0.8),
+                    colorText: Colors.white,
+                  );
+                }
+              },
+              child: const Text('Valider'),
+            ),
+
+          ],
+        );
+      },
+    ),
+  );
+}
+
 
 class ManagementAgents extends StatefulWidget {
   const ManagementAgents({Key? key}) : super(key: key);
@@ -361,14 +179,12 @@ class ManagementAgents extends StatefulWidget {
 }
 
 class _AgentsViewState extends State<ManagementAgents> {
-  // Simulated agent data
-  List<AgentRow> rows = [
-    AgentRow(id: 1, nom: 'Dupont', prenom: 'Jean', adresse: '123 Rue A', telephone: '0123456789'),
-    AgentRow(id: 2, nom: 'Martin', prenom: 'Marie', adresse: '45 Avenue B', telephone: '0987654321'),
-    AgentRow(id: 3, nom: 'Durand', prenom: 'Paul', adresse: '78 Boulevard C', telephone: '0555123456'),
-    AgentRow(id: 4, nom: 'Petit', prenom: 'Sophie', adresse: '123 Rue D', telephone: '0678912345'),
-    AgentRow(id: 5, nom: 'Bernard', prenom: 'Pierre', adresse: '45 Avenue E', telephone: '0712345678'),
-  ];
+ // Injecte ton controller GetX
+final AgentController _agentCtrl = Get.put(AgentController());
+
+// Remplace la liste statique par une liste vide
+List<AgentRow> rows = [];
+
   late AgentDataGridSource _agentDataGridSource;
   
   // Form controllers
@@ -377,16 +193,54 @@ class _AgentsViewState extends State<ManagementAgents> {
   final TextEditingController _adresseController = TextEditingController();
   final TextEditingController _telephoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int? _editingAgentId;
+  String? _editingAgentId;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Charge les agents depuis le backend
+  //   _agentCtrl.fetchAll().then((_) {
+  //     setState(() {
+  //       rows = _agentCtrl.agents.map((a) => AgentRow(
+  //         id: a.id!,
+  //         nom: a.nom,
+  //         prenom: a.prenom,
+  //         adresse: a.adresse,
+  //         telephone: a.telephone,
+  //       )).toList();
+  //       _initializeDataSource();
+  //     });
+  //     print('>> Agents chargés (${_agentCtrl.agents.length}): ${_agentCtrl.agents.map((a) => a.id).toList()}');
+
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    _initializeDataSource();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _agentCtrl.fetchAll().then((_) {
+        setState(() {
+          rows = _agentCtrl.agents.map((a) => AgentRow(
+            id: a.id!,
+            nom: a.nom,
+            prenom: a.prenom,
+            adresse: a.adresse,
+            telephone: a.telephone,
+          )).toList();
+          _initializeDataSource();
+        });
+        print('>> Agents chargés (${_agentCtrl.agents.length}): ${_agentCtrl.agents.map((a) => a.id).toList()}');
+      });
+    });
   }
+
 
   void _initializeDataSource() {
     _agentDataGridSource = AgentDataGridSource(
+      context: context,
+      agentCtrl: _agentCtrl, 
       agentRows: rows,
       onEdit: _showEditModal,
     );
@@ -410,6 +264,10 @@ class _AgentsViewState extends State<ManagementAgents> {
   void _showEditModal(AgentRow agent) {
     // Set current values in controllers
     _editingAgentId = agent.id;
+    if (_editingAgentId == null) {
+      // Cas improbable : on ferme immédiatement
+      return;
+    }
     _nomController.text = agent.nom;
     _prenomController.text = agent.prenom;
     _adresseController.text = agent.adresse;
@@ -423,38 +281,52 @@ class _AgentsViewState extends State<ManagementAgents> {
     );
   }
 
-  void _saveChanges() {
-    if (_formKey.currentState!.validate() && _editingAgentId != null) {
-      // Find and update the agent
-      final index = rows.indexWhere((agent) => agent.id == _editingAgentId);
-      if (index != -1) {
-        final updatedRows = List<AgentRow>.from(rows);
-        updatedRows[index] = AgentRow(
-          id: _editingAgentId!,
-          nom: _nomController.text,
-          prenom: _prenomController.text,
-          adresse: _adresseController.text,
-          telephone: _telephoneController.text,
-        );
-        
-        setState(() {
-          rows = updatedRows;
-          _updateDataSource();
-        });
-        
-        Navigator.of(context).pop(); // Close the modal
-        
-        // Show confirmation
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Agent modifié avec succès'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
+
+  Future<void> _saveChanges() async {
+    // 1) On ne fait rien sans ID
+    if (_editingAgentId == null) return;
+
+    // 2) Validation du formulaire
+    if (!_formKey.currentState!.validate()) return;
+
+    // 3) Création de l'objet Agent à mettre à jour
+    final updated = Agent(
+      id: _editingAgentId,              // String ID de MongoDB
+      nom: _nomController.text.trim(),
+      prenom: _prenomController.text.trim(),
+      adresse: _adresseController.text.trim(),
+      telephone: _telephoneController.text.trim(),
+    );
+
+    // 4) Appel API
+    final result = await _agentCtrl.updateAgent(_editingAgentId!, updated);
+
+    // 5) Si réussite, on ferme la modal et on rafraîchit automatiquement via Obx
+    if (result != null) {
+      // setState(() {
+      //     // rows = result;
+      //     _updateDataSource();
+      //   });
+      Navigator.of(context).pop();
+      // Get.snackbar('Succès', 'Agent modifié');
+       Get.snackbar(
+        'Succès',
+        'Agent modifié avec supprimé',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+    } else {
+      Get.snackbar(
+        'Erreur',
+        'La modification a échoué',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent.withOpacity(0.8),
+        colorText: Colors.white,
+      );
     }
   }
+
 
   Widget _buildEditModal() {
     final bool isMobile = Responsive.isMobile(context);
@@ -463,127 +335,158 @@ class _AgentsViewState extends State<ManagementAgents> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Container(
-        width: isMobile ? double.infinity : 500,
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              children: [
-                const Icon(
-                  Icons.edit,
-                  color: Color.fromARGB(152, 121, 23, 232),
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  "Modifier l'agent",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+      child: SingleChildScrollView(
+        child: Container(
+          width: isMobile ? double.infinity : 500,
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Row(
+                children: [
+                  const Icon(
+                    Icons.edit,
+                    color: Color.fromARGB(152, 121, 23, 232),
+                    size: 24,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    "Modifier l'agent",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 16),
+              
+              // Form
+              Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildFormField(
+                        label: 'Nom',
+                        controller: _nomController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez entrer un nom';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFormField(
+                        label: 'Prénom',
+                        controller: _prenomController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez entrer un prénom';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFormField(
+                        label: 'Adresse',
+                        controller: _adresseController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez entrer une adresse';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFormField(
+                        label: 'Téléphone',
+                        controller: _telephoneController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez entrer un numéro de téléphone';
+                          }
+                          if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            return 'Veuillez entrer un numéro valide';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.phone,
+                      ),
+                      const SizedBox(height: 24),
+                      Obx(() {
+                        // Si on a chargé un mot de passe révélé, on l’affiche en clair
+                        final pwd = Get.find<AgentController>().revealedPassword.value;
+                        return Row(
+                          children: [
+                            const Text(
+                              'Mot de passe : ',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            Expanded(
+                              child: Text(
+                                pwd != null ? pwd : '********',
+                                style: const TextStyle(letterSpacing: 2),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.remove_red_eye),
+                              onPressed: () {
+                                // Ouvre la modale de vérification admin, puis reveal
+                                showAgentPasswordModal(
+                                  context,
+                                  _editingAgentId!,                  // l’ID de l’agent en cours
+                                  Get.find<AgentController>(),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }),
+                      const SizedBox(height: 24),
+                      // Buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Annuler'),
+                          ),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            onPressed: _saveChanges,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(152, 121, 23, 232),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
+                            ),
+                            child: const Text('Enregistrer'),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Divider(),
-            const SizedBox(height: 16),
-            
-            // Form
-            Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildFormField(
-                      label: 'Nom',
-                      controller: _nomController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer un nom';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFormField(
-                      label: 'Prénom',
-                      controller: _prenomController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer un prénom';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFormField(
-                      label: 'Adresse',
-                      controller: _adresseController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer une adresse';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFormField(
-                      label: 'Téléphone',
-                      controller: _telephoneController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer un numéro de téléphone';
-                        }
-                        if (!RegExp(r'^\d+$').hasMatch(value)) {
-                          return 'Veuillez entrer un numéro valide';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.phone,
-                    ),
-                    const SizedBox(height: 24),
-                    
-                    // Buttons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Annuler'),
-                        ),
-                        const SizedBox(width: 16),
-                        ElevatedButton(
-                          onPressed: _saveChanges,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(152, 121, 23, 232),
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                          ),
-                          child: const Text('Enregistrer'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
         ),
       ),
+      )
     );
   }
 
@@ -641,6 +544,7 @@ class _AgentsViewState extends State<ManagementAgents> {
       ],
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -700,9 +604,22 @@ class _AgentsViewState extends State<ManagementAgents> {
           SizedBox(height: isMobile ? 16 : 30),
           
           // Data grid or List view based on screen size
-          isMobile 
-            ? _buildMobileView()
-            : _buildDesktopView(),
+          Obx(() {
+            // À chaque fois que _agentCtrl.agents change, on recalcule rows et on rebuild
+            rows = _agentCtrl.agents.map((a) => AgentRow(
+              id: a.id!,
+              nom: a.nom,
+              prenom: a.prenom,
+              adresse: a.adresse,
+              telephone: a.telephone,
+            )).toList();
+            _initializeDataSource();
+
+            return isMobile 
+              ? _buildMobileView()
+              : _buildDesktopView();
+          })
+
         ],
       ),
     );
@@ -744,8 +661,29 @@ class _AgentsViewState extends State<ManagementAgents> {
                                   icon: Icons.delete,
                                   color: Colors.red,
                                   label: 'Supprimer',
-                                  onPressed: () {
+                                  onPressed: () async {
                                     // TODO: Delete action
+                                    final confirmed = await showDeleteConfirmation(context, agent);
+                                    if (confirmed == true) {
+                                      final success = await _agentCtrl.removeAgent(agent.id.toString());
+                                      if (success) {
+                                        Get.snackbar(
+                                          'Succès',
+                                          'Agent supprimé',
+                                          snackPosition: SnackPosition.TOP,
+                                          backgroundColor: Colors.green.withOpacity(0.8),
+                                          colorText: Colors.white,
+                                        );
+                                      } else {
+                                        Get.snackbar(
+                                          'Erreur',
+                                          'Impossible de supprimer l’agent',
+                                          snackPosition: SnackPosition.TOP,
+                                          backgroundColor: Colors.redAccent.withOpacity(0.8),
+                                          colorText: Colors.white,
+                                        );
+                                      }
+                                    }
                                   },
                                 ),
                                 const SizedBox(width: 12),
@@ -888,99 +826,4 @@ class _AgentsViewState extends State<ManagementAgents> {
             ),
     );
   }
-}
-
-class AgentDataGridSource extends DataGridSource {
-  AgentDataGridSource({
-    required this.agentRows,
-    required this.onEdit,
-  }) {
-    buildDataGridRows();
-  }
-
-  final List<AgentRow> agentRows;
-  final Function(AgentRow) onEdit;
-  List<DataGridRow> _dataGridRows = [];
-
-  void buildDataGridRows() {
-    _dataGridRows = agentRows.map<DataGridRow>((r) {
-      return DataGridRow(cells: [
-        DataGridCell<String>(columnName: 'nom', value: r.nom),
-        DataGridCell<String>(columnName: 'prenom', value: r.prenom),
-        DataGridCell<String>(columnName: 'adresse', value: r.adresse),
-        DataGridCell<String>(columnName: 'telephone', value: r.telephone),
-        DataGridCell<AgentRow>(columnName: 'actions', value: r),
-      ]);
-    }).toList();
-  }
-
-  @override
-  List<DataGridRow> get rows => _dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>((cell) {
-        if (cell.columnName == 'actions') {
-          final agent = cell.value as AgentRow;
-          return Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Delete button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red, size: 20),
-                    onPressed: () {
-                      // TODO: Delete action
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                // Edit button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.blue, size: 20),
-                    onPressed: () => onEdit(agent),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-        return Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(cell.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-}
-
-class AgentRow {
-  final int id;
-  final String nom;
-  final String prenom;
-  final String adresse;
-  final String telephone;
-
-  AgentRow({
-    required this.id,
-    required this.nom,
-    required this.prenom,
-    required this.adresse,
-    required this.telephone,
-  });
 }

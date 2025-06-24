@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:migo/controller/invoice_controller.dart';
 import 'package:migo/models/invoice/invoice.dart';
-import 'package:migo/view/products/saleshistory/sales_history.dart';
+import 'package:migo/view/servicemedical/saleshistory/sales_history.dart';
 import 'package:migo/widgets/buttons.dart';
 
 class SingleBill extends StatefulWidget {

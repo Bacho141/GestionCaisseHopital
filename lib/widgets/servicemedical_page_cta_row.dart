@@ -1,68 +1,7 @@
-// import 'package:flutter/material.dart';
-// import 'package:migo/view/products/billing/billing.dart';
-// import 'package:migo/view/products/saleshistory/sales_history.dart';
-// import 'package:migo/view/responsive.dart';
-// import 'package:migo/widgets/product_page_cta_cards.dart';
-// import 'package:url_launcher/url_launcher.dart';
-
-// class CTARow extends StatelessWidget {
-//   const CTARow({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       // height: Responsive.isDesktop(context) ? 270 : null,
-//       width: !Responsive.isMobile(context)
-//           ? MediaQuery.of(context).size.width - 90
-//           : MediaQuery.of(context).size.width,
-//       child: Wrap(
-//         spacing: 4,
-//         alignment: WrapAlignment.center,
-//         runAlignment: WrapAlignment.center,
-//         crossAxisAlignment: WrapCrossAlignment.center,
-//         direction:
-//             !Responsive.isMobile(context) ? Axis.horizontal : Axis.vertical,
-//         children: [ 
-//           Expanded(
-//             child: ProductCTACard(
-//               toPage: Billing(isMobile: Responsive.isMobile(context)),
-//               caption: "Prestation",
-//               image: "assets/soins-medicaux.png",
-//               cardColor: const Color(0xffDAEEB8)
-//             ),
-//           ),
-//           Expanded(
-//             child: ProductCTACard(
-//               toPage: SalesHistory(),
-//                 caption: "Examen de Laboratoire",
-//                 image: "assets/laboratoire-medical.png",
-//                 cardColor: Color(0xffFFD58E)
-//             ),
-//           ),
-//           Expanded(
-//             child: ProductCTACard(
-//              caption: "Actes Medico-Chirurgicaux",
-//               image: "assets/chirurgie.png",
-//               cardColor: Color(0xffBEE4FF),
-//               isGoToAdmin: true,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:migo/view/products/billing/billing.dart';
-import 'package:migo/view/products/saleshistory/sales_history.dart';
 import 'package:migo/view/responsive.dart';
-import 'package:migo/widgets/product_page_cta_cards.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:migo/controller/servicemedical_controller.dart';
 
 class CTARow extends StatelessWidget {
   const CTARow({
@@ -71,6 +10,8 @@ class CTARow extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    // Instancie le ServiceController
+    final svcCtrl = Get.put(ServiceController());
     final isDesktop = Responsive.isDesktop(context);
     final isMobile = Responsive.isMobile(context);
     final screenWidth = MediaQuery.of(context).size.width;
@@ -81,7 +22,7 @@ class CTARow extends StatelessWidget {
         : !isMobile 
             ? screenWidth - 90
             : screenWidth;
-    
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 16.0 : 0,
@@ -90,18 +31,16 @@ class CTARow extends StatelessWidget {
       child: SizedBox(
         width: containerWidth,
         child: isMobile
-            ? Column(
-                children: _buildCTAItems(context),
-              )
+            ? Column(children: _buildCTAItems(context, svcCtrl))
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: _buildCTAItems(context),
+                children: _buildCTAItems(context, svcCtrl),
               ),
       ),
     );
   }
   
-  List<Widget> _buildCTAItems(BuildContext context) {
+  List<Widget> _buildCTAItems(BuildContext context, ServiceController svcCtrl) {
     final isMobile = Responsive.isMobile(context);
     final screenWidth = MediaQuery.of(context).size.width;
     
@@ -122,12 +61,7 @@ class CTARow extends StatelessWidget {
         width: cardWidth,
         height: cardHeight,
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Billing(isMobile: isMobile),
-            ),
-          );
+          svcCtrl.fetchByCategory('type_prestation');
         },
       ),
       SizedBox(height: isMobile ? 16 : 0, width: isMobile ? 0 : 16),
@@ -139,12 +73,7 @@ class CTARow extends StatelessWidget {
         width: cardWidth,
         height: cardHeight,
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SalesHistory(),
-            ),
-          );
+          svcCtrl.fetchByCategory('examens_de_laboratoire');
         },
       ),
       SizedBox(height: isMobile ? 16 : 0, width: isMobile ? 0 : 16),
@@ -155,9 +84,9 @@ class CTARow extends StatelessWidget {
         color: Color(0xffBEE4FF),
         width: cardWidth,
         height: cardHeight,
-        isAdmin: true,
+        isAdmin: false,
         onTap: () {
-          // Action pour admin
+          svcCtrl.fetchByCategory('actes_medico_chirurgicaux');
         },
       ),
     ];
@@ -275,13 +204,13 @@ class CTARow extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                isAdmin ? Icons.admin_panel_settings : Icons.arrow_forward,
+                                isAdmin ? Icons.admin_panel_settings : Icons.search,
                                 size: isMobile ? 16 : 20,
                                 color: Colors.black54,
                               ),
                               SizedBox(width: 4),
                               Text(
-                                isAdmin ? "Admin" : "Ouvrir",
+                                isAdmin ? "Admin" : "Chercher",
                                 style: TextStyle(
                                   fontSize: isMobile ? 12 : 14,
                                   fontWeight: FontWeight.w600,

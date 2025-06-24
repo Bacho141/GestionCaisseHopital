@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:migo/controller/invoice_controller.dart';
-import 'package:migo/view/products/billing/payment_success.dart';
+import 'package:migo/view/servicemedical/billing/payment_success.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:migo/widgets/buttons.dart';
 import 'package:migo/widgets/productsToBeBilledListTile.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-import '../productpage.dart';
+import '../servicemedical_page.dart';
 
 class PaymentsPage extends StatefulWidget {
   final InvoiceController invoiceController;

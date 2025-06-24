@@ -13,7 +13,8 @@ class AuthApi {
 
     if (resp.statusCode! >= 200 && resp.statusCode! < 300) {
       final data = resp.data;
-      
+      print("mbacho.web45@gmail.com : , $data");
+
       return User.fromJson(data['user'], token: data['token']);
     } else {
       // On récupère le message d'erreur du backend (ou un fallback)

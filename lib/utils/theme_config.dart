@@ -98,7 +98,7 @@ ThemeData mainTheme = ThemeData(
   ),
   brightness: Brightness.light,
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  cardTheme: const CardTheme(
+  cardTheme: const CardThemeData(
     color: Color(0xFFF5F5F5), // Gris clair pour contraste
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(20)),

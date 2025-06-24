@@ -15,18 +15,11 @@ class AuthenticationManager extends GetxController with CacheManager {
   void login(String? token) async {
     isLogged.value = true;
     //Token is cached
-    await saveToken(token);
+    final result = await saveToken(token);
+    print('▶ AuthenticationManager.login() – saveToken() returned: $result');
+    print('▶ AuthenticationManager.login() – token sauvegardé : $token');
   }
 
-  // void checkLoginStatus() {
-  //   final token = getToken();
-  //   print("TOKEN 1 : $token");
-  //   if (token != null) {
-  //     print("TOKEN 2 : $token");
-  //     removeToken();
-  //     isLogged.value = true;
-  //   }
-  // }
 
   void checkLoginStatus() {
     final token = getToken();

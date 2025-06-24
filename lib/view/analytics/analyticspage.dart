@@ -9,7 +9,7 @@ import 'package:migo/widgets/buttons.dart';
 import 'package:migo/widgets/charts/products_sold_line_chart.dart';
 import 'package:migo/widgets/charts/revenue_line_chart.dart';
 import 'package:migo/widgets/charts/customers_line_chart.dart';
-import 'package:migo/widgets/charts/receipt_sceen.dart';
+import 'package:migo/view/receipt/receipt_sceen.dart';
 import 'package:migo/widgets/printable_data.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';

@@ -11,7 +11,7 @@ class AuthRepository {
     // Sauvegarder en local
     // storage.write('user', user.toJson());
     // storage.write('jwt', user.token);
-    print("DATA: $user.token");
+    print("DATA: ${user.token}");
     return user;
   }
 
@@ -19,6 +19,7 @@ class AuthRepository {
     final user = await api.signup(name, email, password);
     // storage.write('user', user.toJson());
     // storage.write('jwt', user.token);
+    print("INSCRIPTION : $user");
     return user;
   }
 }

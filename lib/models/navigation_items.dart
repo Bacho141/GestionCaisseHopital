@@ -6,6 +6,7 @@ enum NavigationItems {
   receipts,
   products,
   analytics,
+  historics,
   // employees,
 }
 
@@ -18,6 +19,8 @@ extension NavigationItemsExtensions on NavigationItems {
         return Iconsax.receipt;
       case NavigationItems.products:
         return Iconsax.box;
+      case NavigationItems.historics:
+        return Iconsax.clock;
       case NavigationItems.analytics:
         return Iconsax.chart_square;
       // case NavigationItems.employees:

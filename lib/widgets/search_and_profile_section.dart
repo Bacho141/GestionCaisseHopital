@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:migo/controller/servicemedical_controller.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
@@ -13,6 +14,8 @@ class SearchAndProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final svcCtrl = Get.put(ServiceController());
+
     return Neumorphic(
       style: NeumorphicStyle(
         depth: 6, // Ajoute une élévation
@@ -72,6 +75,13 @@ class SearchAndProfileSection extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
                       ),
+                      onChanged: (value) {
+                        if (value.isEmpty) {
+                          svcCtrl.fetchAll();
+                        } else {
+                          svcCtrl.search(value);
+                        }
+                      },
                     ),
                   )
                 ],
@@ -81,61 +91,5 @@ class SearchAndProfileSection extends StatelessWidget {
         ),
       ),
     );
-    // SizedBox(
-    //   width: !Responsive.isMobile(context)
-    //       ? MediaQuery.of(context).size.width - 110
-    //       : null,
-    //   child: Padding(
-    //     padding: const EdgeInsets.only(top: 20.0, bottom: 8),
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: [
-    //             Visibility(
-    //               visible: Responsive.isDesktop(context),
-    //               child: Text(
-    //                 "Tous les services de l'hôphital ($itemCount)",
-    //                 style: const TextStyle(
-    //                   fontSize: 28,
-    //                   fontWeight: FontWeight.w800,
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(width: 10,),
-    //             SizedBox(
-    //               width: Responsive.isMobile(context) ? 380 : 450,
-    //               height: Responsive.isMobile(context) ? 40 : null,
-    //               child: TextField(
-    //                 decoration: InputDecoration(
-    //                   fillColor: Colors.transparent,
-    //                   contentPadding: Responsive.isMobile(context)
-    //                       ? EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0)
-    //                       : null,
-    //                   prefixIcon: Icon(
-    //                     Iconsax.search_normal,
-    //                     size: Responsive.isMobile(context) ? 18 : 24,
-    //                   ),
-    //                   hintText: 'Recherche...',
-    //                   hintStyle: TextStyle(
-    //                     fontSize: Responsive.isMobile(context) ? 14 : 16,
-    //                   ),
-    //                   enabledBorder: OutlineInputBorder(
-    //                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
-    //                     borderSide: BorderSide(color: Colors.transparent),
-    //                   ),
-    //                   border: OutlineInputBorder(
-    //                     borderRadius: BorderRadius.all(Radius.circular(8)),
-    //                   ),
-    //                 ),
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

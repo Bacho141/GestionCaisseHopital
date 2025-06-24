@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:migo/utils/config.dart';
 
 // class ApiClient {
 //   final Dio _dio = Dio();
@@ -24,8 +25,9 @@ class ApiClient {
   late final Dio _dio;
 
   ApiClient() {
+    print("AppConfig.baseUrl : ${AppConfig.baseUrl}");
     _dio = Dio(BaseOptions(
-      baseUrl: 'http://192.168.0.104:8080/api',
+      baseUrl: AppConfig.baseUrl,
       validateStatus: (status) {
         // Ici on ne throw pas sur les 400, on gère nous-mêmes
         return status != null && status < 500;

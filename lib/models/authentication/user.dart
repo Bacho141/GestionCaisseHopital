@@ -2,12 +2,14 @@ class User {
   final String id;
   final String name;
   final String email;
+  // final String role;
   final String token;
 
   User({
     required this.id,
     required this.name,
     required this.email,
+    // required this.role,
     required this.token,
   });
 
@@ -17,6 +19,7 @@ class User {
       id: json['id'] as String,
       name: json['name'] as String,
       email: json['email'] as String,
+      // role: json['role'] as String,
       token: token,
     );
   }
@@ -27,6 +30,7 @@ class User {
       'id': id,
       'name': name,
       'email': email,
+      // 'role': role,
       'token': token,
     };
   }

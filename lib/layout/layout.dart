@@ -4,11 +4,13 @@ import 'package:migo/layout/navigation_panel.dart';
 import 'package:migo/layout/top_app_bar.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:migo/models/authManager.dart';
+import 'package:migo/controller/auth_controller.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget content;
   final String pageName;
   final int activeTab;
+  
   const AppLayout(
       {Key? key,
       required this.content,
@@ -17,6 +19,8 @@ class AppLayout extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _authCtrl =Get.find<AuthController>();
+
     return Scaffold(
         appBar: Responsive.isMobile(context)
          ? AppBar(
@@ -42,7 +46,7 @@ class AppLayout extends StatelessWidget {
                      child: ListTile(
                        leading: Icon(
                         Icons.logout,
-                        color: Color(0xFF7717E8),
+                        color: _authCtrl.userRole.value == 'Admin' ? Color(0xFF7717E8) : Color.fromARGB(255, 232, 23, 23),
                       ),
                        title: Text('Déconnexion'),
                      ),

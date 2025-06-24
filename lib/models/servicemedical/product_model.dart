@@ -14,8 +14,8 @@ class Product {
   /// Crée une instance depuis une Map (ex. SQLite ou JSON)
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      designation: map['designation'] as String,
-      unitPrice: (map['unitPrice'] as num).toDouble(),
+      designation: map['label'] as String,
+      unitPrice: (map['tarif'] as num).toDouble(),
       quantity: map['quantity'] as int,
       amount: (map['amount'] as num).toDouble(),
     );

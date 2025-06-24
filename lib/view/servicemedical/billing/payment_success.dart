@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:migo/layout/layout.dart';
-import 'package:migo/view/products/productpage.dart';
+import 'package:migo/view/servicemedical/servicemedical_page.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
   const PaymentSuccessPage({super.key});

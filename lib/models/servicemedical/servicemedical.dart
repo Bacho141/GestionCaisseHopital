@@ -1,17 +1,21 @@
 class Product {
-   final String category; 
+  final String id; 
+  final String category; 
   String label;
   String  tarif;
   final String? icon;
 
-  Product(
-      {required this.category,
+  Product({
+    required this.id,
+    required this.category,
     required this.label,
     required this.tarif,
-    this.icon,});
+    this.icon,
+  });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      id: json['_id'] as String,
       category: json['category'] as String,
       label: json['label'] as String,
       tarif: json['tarif'].toString(),
@@ -22,6 +26,7 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = id; 
     data['tarif'] = tarif;
     data['icon'] = icon;
     data['label'] = label;
@@ -48,35 +53,4 @@ class Keyword {
     return data;
   }
 }
-
-// class Service {
-//   final String label;
-//   final String tarif;
-//   final String category;
-//   final IconData? iconData;
-
-//   Service({
-//     required this.label,
-//     required this.tarif,
-//     required this.category,
-//     this.iconData,
-//   });
-
-//   factory Service.fromJson(Map<String, dynamic> json) {
-//     final icon = json['icon'];
-//     IconData? iconData;
-//     if (icon != null && icon['codePoint'] != null) {
-//       iconData = IconData(
-//         icon['codePoint'] as int,
-//         fontFamily: 'MaterialIcons',
-//       );
-//     }
-//     return Service(
-//       label: json['label'] as String,
-//       tarif: json['tarif'] as String,
-//       category: json['category'] as String,
-//       iconData: iconData,
-//     );
-//   }
-// }
 

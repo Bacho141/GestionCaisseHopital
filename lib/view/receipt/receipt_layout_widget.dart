@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:migo/controller/receipt_controller.dart';
 // import 'package:migo/utils/number_to_words_fr.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:migo/models/receipt/receipt_model.dart';
@@ -18,6 +20,9 @@ class ReceiptLayout extends StatefulWidget {
 class _ReceiptLayoutState extends State<ReceiptLayout> {
   // 1. Création d'un ScrollController
   final ScrollController _scrollController = ScrollController();
+
+  final ReceiptController rc = Get.find<ReceiptController>();
+
 
   @override
   void dispose() {
@@ -235,7 +240,7 @@ class _ReceiptLayoutState extends State<ReceiptLayout> {
             ],
           ),
           const SizedBox(height: 8),
-          Text('Client: ${widget.receipt.clientName}',
+          Text('Client: ${widget.receipt.client.name}',
               style: const TextStyle(fontSize: 16)),
           _buildResponsiveTable(context),
           const SizedBox(height: 16),
@@ -298,8 +303,8 @@ class _ReceiptLayoutState extends State<ReceiptLayout> {
                 // Lignes dynamiques
                 ...widget.receipt.produits.map((produit) => TableRow(
                       children: [
-                        _TableCell(produit.designation),
-                        _TableCell("${produit.unitPrice} F"),
+                        _TableCell(produit.label),
+                        _TableCell("${produit.tarif} F"),
                         _TableCell(produit.quantity.toString()),
                         _TableCell("${produit.amount} F"),
                       ],

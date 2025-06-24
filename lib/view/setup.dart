@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:migo/models/authManager.dart';
 import 'package:migo/view/auth/login.dart';
+import 'package:migo/view/auth/agent_login.dart';
 import 'package:migo/view/onboarding/onboarding.dart';
 import 'package:migo/view/home/home_dashboard.dart';
 
@@ -19,7 +20,7 @@ class OnStart extends StatelessWidget {
           ? onboardingOnce.read('onboarded') ?? false
               ? const DashboardPage()
               : const Onboarding()
-          : const LoginView();
+          : const AgentLoginView();
     });
   }
 }

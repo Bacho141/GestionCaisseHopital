@@ -185,6 +185,7 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(height: 16),
                   Obx(() {
                     final loading = _authController.loading.value;
+                    print("LOGINVALID 1: ${loading}");
                     return PrimaryButton(
                       vertPad: 20,
                       // Affiche un indicateur si en cours
@@ -192,16 +193,20 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: loading
                           ? null
                           : () async {
+                            print("LOGINVALID 2: ${loading}");
                               if (_formKey.currentState!.validate()) {
-                                await _authController.login(
+                                await _authController.loginAdmin(
                                     usernameController.text,
                                     passwordController.text);
+                                  // print("LOGINVALID : ${_authController.user.value}");
                                 _formKey.currentState!.reset();
                                 // usernameController.clear();
                                 passwordController.clear();
                                 // Si authentifié, va vers l'écran principal
-                                if (_authController.user.value != null) {
-                                  Get.to(() => const DashboardPage());
+                                print("LOGINVALID 3: ${_authController.adminUser}");
+                                if (_authController.adminUser.value != null) {
+                                  // Get.to(() => const DashboardPage());
+                                  Get.offAll(() => const DashboardPage());
                                 }
                               }
                             },

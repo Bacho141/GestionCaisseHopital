@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:migo/controller/product_controller.dart';
+import 'package:migo/controller/servicemedical_controller.dart';
 import 'package:migo/layout/layout.dart';
 import 'package:migo/widgets/dashboard_row.dart';
 
@@ -12,7 +12,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<DashboardPage> {
-  final ProductController productController = Get.put(ProductController());
+  final ServiceController productController = Get.put(ServiceController());
 
   @override
   void initState() {

@@ -10,7 +10,9 @@ class NumberToWordsFR {
     } else if (n >= 1000) {
       return '${_convertRecursive(n ~/ 1000)} mille${n % 1000 != 0 ? ' ' : ''}${_convertRecursive(n % 1000)}';
     } else if (n >= 100) {
-      return '${_convertBelow1000(n ~/ 100)} cent${n % 100 != 0 ? ' ' : ''}${_convertRecursive(n % 100)}';
+      // return '${_convertBelow1000(n ~/ 100)} cent${n % 100 != 0 ? ' ' : ''}${_convertRecursive(n % 100)}';
+      return '${_convertBelow1000(n ~/ 100)} cent${(n % 100 != 0 ? ' ' : 's')}${_convertRecursive(n % 100)}';
+
     } else {
       return _convertBelow100(n);
     }

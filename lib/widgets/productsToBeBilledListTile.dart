@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:migo/controller/invoice_controller.dart';
-import 'package:migo/models/product/product.dart';
+import 'package:migo/models/servicemedical/servicemedical.dart';
 import 'package:migo/widgets/buttons.dart';
 import 'package:quantity_input/quantity_input.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:migo/view/products/productpage.dart';
+import 'package:migo/view/servicemedical/servicemedical_page.dart';
 import 'package:migo/view/responsive.dart';
 
 class Onboarding extends StatefulWidget {

@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:migo/controller/product_controller.dart';
+import 'package:migo/controller/servicemedical_controller.dart';
 import 'package:migo/layout/layout.dart';
 import 'package:migo/view/responsive.dart';
-import 'package:migo/widgets/product_page_cta_row.dart';
-import 'package:migo/widgets/productcard.dart';
+import 'package:migo/widgets/servicemedical_page_cta_row.dart';
+import 'package:migo/widgets/servicemedical_card.dart';
 import 'package:migo/widgets/search_and_profile_section.dart';
-/*
 
-Une exception s'est produite.
-FlutterError (setState() or markNeedsBuild() called during build.
-This Obx widget cannot be marked as needing to build because the framework is already in the process of building widgets. A widget can be marked as needing to be built during the build phase only if one of its ancestors is currently building. This exception is allowed because the framework builds parent widgets before children, which means a dirty descendant will always be built. Otherwise, the framework might not visit this widget during this build phase.
-The widget on which setState() or markNeedsBuild() was called was:
-  Obx
-The widget which was currently being built when the offending call was made was:
-  Builder)
 
- */
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
 
@@ -25,13 +16,23 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  final ProductController productController = Get.put(ProductController());
+  final ServiceController productController = Get.put(ServiceController());
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   productController.fetchAll();
+  // }
   @override
   void initState() {
     super.initState();
-    productController.fetchAllProducts();
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      productController.fetchAll();
+    });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _ProductsPageState extends State<ProductsPage> {
             ),
             // heading row with filters
             SearchAndProfileSection(
-              itemCount: productController.productList.length,  // Passez le nombre d'éléments
+              itemCount: productController.serviceList.length,  // Passez le nombre d'éléments
             ),
             const SizedBox(height: 16),
             Center(
@@ -81,9 +82,9 @@ class _ProductsPageState extends State<ProductsPage> {
                           mainAxisSpacing: Responsive.isMobile(context) ? 8 : 12,  // Espacement vertical entre les cartes
                           crossAxisSpacing: Responsive.isMobile(context) ? 8 : 12,  // Espacement horizontal entre les cartes
                         ),
-                        itemCount: productController.productList.length,
+                        itemCount: productController.serviceList.length,
                         itemBuilder: (_, index) =>
-                            ProductCard(productController.productList[index]),
+                            ProductCard(productController.serviceList[index]),
                       );
                     }
                   },

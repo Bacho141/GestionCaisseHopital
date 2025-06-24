@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_this, unnecessary_new, prefer_collection_literals
 
-import 'package:migo/models/product/product.dart';
+import 'package:migo/models/servicemedical/servicemedical.dart';
 
 class Invoice {
   int? id;

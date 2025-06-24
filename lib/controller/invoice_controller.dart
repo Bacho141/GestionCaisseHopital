@@ -3,7 +3,7 @@
 import 'package:get/get.dart';
 import 'package:migo/models/invoice/invoice.dart';
 
-import 'package:migo/models/product/product.dart';
+import 'package:migo/models/servicemedical/servicemedical.dart';
 import 'package:migo/service/invoice_service.dart';
 // import 'package:migo/service/product_service.dart';
 
@@ -53,17 +53,6 @@ class InvoiceController extends GetxController {
     });
   }
 
-  // void fetchAllInvoice() async {
-  //   try {
-  //     isLoading(true);
-  //     var invoices = await _invoiceService.getAllInvoice();
-  //     if (invoices != null) {
-  //       salesList.value = invoices;
-  //     }
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
 
    /// Simule le fetch des factures
   Future<void> fetchAllInvoice() async {
@@ -175,14 +164,5 @@ class InvoiceController extends GetxController {
     });
   }
 
-  // List<String> getAllCashiers() {
-  //   // TODO : remplacer par l’appel réel ou la lecture depuis les factures
-  //   return ['Alice', 'Bob', 'Charlie'];
-  // }
-
-  // /// Retourne la liste des produits pour le filtre
-  // List<String> getAllProducts() {
-  //   // TODO : remplacer par l’appel réel ou la lecture depuis les factures
-  //   return ['Produit A', 'Produit B', 'Produit C'];
-  // }
 }
+

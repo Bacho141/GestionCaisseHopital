@@ -6,17 +6,33 @@ mixin CacheManager {
   Future<bool> saveToken(String? token) async {
     final box = GetStorage();
     await box.write(CacheManagerKey.TOKEN.toString(), token);
+    print('▶ CacheManager.saveToken() – écrit [key] = $token');
     return true;
   }
 
+  // String? getToken() {
+  //   final box = GetStorage();
+  //   return box.read(CacheManagerKey.TOKEN.toString());
+  // }
+
+  // Future<void> removeToken() async {
+  //   final box = GetStorage();
+  //   await box.remove(CacheManagerKey.TOKEN.toString());
+  // }
+
   String? getToken() {
     final box = GetStorage();
-    return box.read(CacheManagerKey.TOKEN.toString());
+    final key = CacheManagerKey.TOKEN.toString();
+    final t = box.read(key);
+    print('▶ CacheManager.getToken() – lit  [$key] = $t');
+    return t;
   }
 
   Future<void> removeToken() async {
     final box = GetStorage();
-    await box.remove(CacheManagerKey.TOKEN.toString());
+    final key = CacheManagerKey.TOKEN.toString();
+    await box.remove(key);
+    print('▶ CacheManager.removeToken() – supprimé clé [$key]');
   }
 }
 

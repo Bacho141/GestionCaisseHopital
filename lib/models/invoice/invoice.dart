@@ -1,6 +1,6 @@
 
 import 'package:flutter/foundation.dart';
-import 'package:migo/models/product/product_model.dart';
+import 'package:migo/models/servicemedical/product_model.dart';
 
 class Items {
   String? title;

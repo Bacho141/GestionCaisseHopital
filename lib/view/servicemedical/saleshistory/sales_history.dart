@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_adjacent_string_concatenation
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:migo/controller/invoice_controller.dart';
+// import 'package:get/get.dart';
+// import 'package:migo/controller/invoice_controller.dart';
 import 'package:migo/layout/layout.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:migo/widgets/sales_history_widget.dart';
@@ -17,12 +17,12 @@ class SalesHistory extends StatefulWidget {
 }
 
 class _SalesHistoryState extends State<SalesHistory> {
-  final InvoiceController invoiceController = Get.put(InvoiceController());
+  // final InvoiceController invoiceController = Get.put(InvoiceController());
 
   @override
   void initState() {
     super.initState();
-    invoiceController.fetchAllInvoice();
+    // invoiceController.fetchAllInvoice();
   }
 
   @override
@@ -42,7 +42,7 @@ class _SalesHistoryState extends State<SalesHistory> {
           ) : SalesHistoryWidget(),
       ] ,
     ),
-      pageName: "Sales History",
+      pageName: "Historiques des Services",
     );
   }
 }

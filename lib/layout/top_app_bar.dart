@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:migo/models/authManager.dart';
-import 'package:migo/view/auth/login.dart';
+import 'package:migo/controller/auth_controller.dart';
+import 'package:migo/view/auth/agent_login.dart';
 import 'package:migo/view/responsive.dart';
 
 class TopAppBar extends StatefulWidget {
@@ -15,9 +15,11 @@ class TopAppBar extends StatefulWidget {
 
 class _TopAppBarState extends State<TopAppBar> {
   // AuthenticationManager _authManager = Get.find();
+  final _authCtrl = Get.find<AuthController>();
 
   // Variable pour gérer l'état du hover
   bool isHovered = false;
+  // _authCtrl.userRole.value != 'Admin'
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +32,9 @@ class _TopAppBarState extends State<TopAppBar> {
       ),
       elevation: 8,
       value: chosenDropdownOption,
-      icon: const Icon(
+      icon: Icon(
         Iconsax.arrow_circle_down,
-        color: Color(0xFF7717E8),
+        color: _authCtrl.userRole.value == 'Admin' ? Color(0xFF7717E8) : Color.fromARGB(255, 232, 23, 23),
       ),
       borderRadius: BorderRadius.circular(15),
       items: [
@@ -60,8 +62,8 @@ class _TopAppBarState extends State<TopAppBar> {
       ],
       onChanged: (value) {
         if (value == "Logout") {
-          Get.find<AuthenticationManager>().logOut();
-          Get.to(() => const LoginView());
+          _authCtrl.logout();
+          Get.to(() => const AgentLoginView());
         }
       },
     );
