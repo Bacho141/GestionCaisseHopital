@@ -11,7 +11,7 @@ class ReceiptService extends GetConnect with CacheManager {
 
   /// Envoie un nouveau reçu, renvoie l'ID généré
   Future<String?> createReceipt(Map<String, dynamic> payload) async {
-    final token = getToken();
+    final token = await getToken();
     _dio.options.headers['authorization'] = 'Bearer $token';
 
     final resp = await _dio.post('$_baseUrl/receipt', data: payload);
@@ -23,7 +23,7 @@ class ReceiptService extends GetConnect with CacheManager {
 
   /// Récupère un reçu existant
   Future<Receipt?> getReceipt(String id) async {
-    final token = getToken();
+    final token = await getToken();
     _dio.options.headers['authorization'] = 'Bearer $token';
 
     final resp = await _dio.get('$_baseUrl/receipt/$id');
@@ -36,8 +36,8 @@ class ReceiptService extends GetConnect with CacheManager {
   ReceiptService() {
     // Intercepteur pour injecter le token dans chaque requête
     _dio.interceptors.add(
-      InterceptorsWrapper(onRequest: (options, handler) {
-        final token = getToken();
+      InterceptorsWrapper(onRequest: (options, handler) async {
+        final token = await getToken();
         if (token != null) {
           options.headers['authorization'] = 'Bearer $token';
         }

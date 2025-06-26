@@ -7,7 +7,7 @@ import 'package:migo/utils/config.dart';
 class AgentServices extends GetConnect with CacheManager {
   final String baseUrl = AppConfig.baseUrl;
 
-    /// 1) Login agent (renvoie token)
+  /// 1) Login agent (renvoie token)
   // Future<String?> loginAgent(String telephone, String password) async {
   //   final dio = Dio();
   //   final resp = await dio.post(
@@ -39,8 +39,8 @@ class AgentServices extends GetConnect with CacheManager {
   Future<String?> revealAgent(String id, String adminPassword) async {
     final dio = Dio();
     // 1) Récupère le token via CacheManager
-   final token = await getToken();
-   dio.options.headers['authorization'] = 'Bearer $token';
+    final token = await getToken();
+    dio.options.headers['authorization'] = 'Bearer $token';
     // dio.options.headers['authorization'] = 'Bearer ${getToken()}';
     final resp = await dio.post(
       '$baseUrl/agent/$id/reveal',
@@ -74,8 +74,13 @@ class AgentServices extends GetConnect with CacheManager {
   /// 4) Fetch all agents (existant)
   Future<List<Agent>?> fetchAllAgents() async {
     final dio = Dio();
-    dio.options.headers['authorization'] = 'Bearer ${getToken()}';
-    final resp = await dio.get('$baseUrl/agent');
+    print("VALIDTOKENN 1: ${getToken()}");
+    dio.options.headers['Authorization'] = 'Bearer ${getToken()}';
+    final resp = await dio.get('$baseUrl/agent',
+    );
+
+    print('Status code: ${resp.statusCode}');
+    print('Body: ${resp.data}');
     // print("CASSIERS 1 :, ${resp.statusCode}");
     if (resp.statusCode == 200) {
       final list = (resp.data['data'] as List?) ?? [];

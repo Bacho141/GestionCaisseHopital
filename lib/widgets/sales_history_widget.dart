@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:migo/controller/receipt_controller.dart';
 import 'package:migo/models/receipt/receipt_model.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
-import 'package:migo/controller/receipt_controller.dart';
 import 'package:migo/controller/controller_agent.dart';
 import 'package:intl/intl.dart';
 

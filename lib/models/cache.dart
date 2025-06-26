@@ -20,7 +20,7 @@ mixin CacheManager {
   //   await box.remove(CacheManagerKey.TOKEN.toString());
   // }
 
-  String? getToken() {
+  Future<String?> getToken() async {
     final box = GetStorage();
     final key = CacheManagerKey.TOKEN.toString();
     final t = box.read(key);

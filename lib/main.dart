@@ -19,44 +19,31 @@ main() async {
 
   Get.put(AuthenticationManager());
   Get.put(AuthController());
-  final authCtrl = Get.put(AuthController());
+  final authCtrl = Get.find<AuthController>();
   print('▶ AuthController initialisé dans main: $authCtrl');
 
-  // if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-  //   await windowManager.ensureInmbacho.web405@gmail.comitialized(); // Initialisation correcte
-
-  //   WindowOptions windowOptions = const WindowOptions(
-  //     minimumSize: Size(1310, 730), // Taille minimale
-  //     maximumSize: Size(1920, 1080), // Taille maximale (optionnel)
-  //     center: true, // Centrer la fenêtre au démarrage
-  //     fullScreen: false, // Empêcher le mode plein écran forcé
-  //   );
-
-  //   windowManager.waitUntilReadyToShow(windowOptions, () async {
-  //     await windowManager.show();
-  //     await windowManager.setResizable(
-  //         true); // Autoriser le redimensionnement mais avec limites
-  //   });
-  // }
-
   if (!kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
-    await windowManager.ensureInitialized(); // Initialisation correcte
+    try {
+      await windowManager.ensureInitialized(); // Initialisation correcte
 
-    WindowOptions windowOptions = const WindowOptions(
-      minimumSize: Size(1310, 730), // Taille minimale
-      maximumSize: Size(1920, 1080), // Taille maximale (optionnel)
-      center: true, // Centrer la fenêtre au démarrage
-      fullScreen: false, // Empêcher le mode plein écran forcé
-    );
+      WindowOptions windowOptions = const WindowOptions(
+        minimumSize: Size(1310, 730), // Taille minimale
+        maximumSize: Size(1920, 1080), // Taille maximale (optionnel)
+        center: true, // Centrer la fenêtre au démarrage
+        fullScreen: false, // Empêcher le mode plein écran forcé
+      );
 
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.setResizable(
-          true); // Autoriser le redimensionnement mais avec limites
-    });
+      await windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.setResizable(
+            true); // Autoriser le redimensionnement mais avec limites
+      });
+    } catch (e) {
+      print('▶ Erreur lors de l\'initialisation de windowManager: $e');
+    }
   }
 
-  await GetStorage.init(); // Initialisation du stockage
+  // Pas besoin de réinitialiser GetStorage ici
   runApp(const MiGo());
 }
 

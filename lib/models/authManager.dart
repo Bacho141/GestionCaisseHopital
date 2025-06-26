@@ -21,8 +21,8 @@ class AuthenticationManager extends GetxController with CacheManager {
   }
 
 
-  void checkLoginStatus() {
-    final token = getToken();
+  Future<void> checkLoginStatus() async {
+    final token = await getToken();
     print("TOKEN  : $token");
 
     if (token == null) {
@@ -34,7 +34,7 @@ class AuthenticationManager extends GetxController with CacheManager {
     // 1) Si le token expiré, le supprimer et déconnecter
     if (JwtDecoder.isExpired(token)) {
       print("TOKEN 2.1 : $token");
-      removeToken();
+      await removeToken();
       print("TOKEN 2 : $token");
       isLogged.value = false;
       return;
