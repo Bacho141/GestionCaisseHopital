@@ -23,18 +23,19 @@ class _TopAppBarState extends State<TopAppBar> {
 
   @override
   Widget build(BuildContext context) {
+  final userName = _authCtrl.userRole.value == 'Admin' ? "Admin" : "Agent";
     String? chosenDropdownOption;
     var profileDropdown = DropdownButton(
       hint: _nameAndProfilePicture(
         context,
-        "Hayat",
+        userName,
         "./assets/avatar.png",
       ),
       elevation: 8,
       value: chosenDropdownOption,
       icon: Icon(
         Iconsax.arrow_circle_down,
-        color: _authCtrl.userRole.value == 'Admin' ? Color(0xFF7717E8) : Color.fromARGB(255, 232, 23, 23),
+        color: Color(0xFF7717E8),
       ),
       borderRadius: BorderRadius.circular(15),
       items: [

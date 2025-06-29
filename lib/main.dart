@@ -9,9 +9,14 @@ import 'package:migo/view/splash.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:migo/controller/auth_controller.dart';
 import 'package:migo/models/authManager.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ---------- Initialisation de intl pour les locales ----------
+  await initializeDateFormatting('fr_FR', null);
+  print('▶ Intl initialisé pour fr_FR ✅');
 
   // ---------- Initialisation de GetStorage (très important) ----------
   await GetStorage.init();

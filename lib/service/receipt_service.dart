@@ -46,7 +46,7 @@ class ReceiptService extends GetConnect with CacheManager {
     );
   }
 
-    /// Récupère la liste des reçus, avec filtres facultatifs.
+  /// Récupère la liste des reçus, avec filtres facultatifs.
   // Future<List<Receipt>?> fetchReceipts({
   //   DateTime? from,
   //   DateTime? to,
@@ -78,7 +78,7 @@ class ReceiptService extends GetConnect with CacheManager {
   //   }
   // }
 
-    /// Récupère la liste des reçus en appliquant les query-params passés.
+  /// Récupère la liste des reçus en appliquant les query-params passés.
   /// Exemples de clés dans [params] : 'from', 'to', 'caissier', 'produit', 'status'
   Future<List<Receipt>?> fetchReceipts(Map<String, String> params) async {
     try {
@@ -116,4 +116,36 @@ class ReceiptService extends GetConnect with CacheManager {
     return response.statusCode == 200;
   }
 
+  /// Met à jour le statut d'un reçu (paid/due)
+  Future<bool> updateReceiptStatus(
+      String receiptNumber, double newPaid, double newDue) async {
+    try {
+      print(
+          '🔄 Tentative de mise à jour du statut pour le reçu: $receiptNumber');
+      print('📊 Nouveaux montants - Paid: $newPaid, Due: $newDue');
+
+      final response = await _dio.put(
+        '$_baseUrl/receipt/$receiptNumber/status',
+        data: {
+          'paid': newPaid,
+          'due': newDue,
+        },
+      );
+
+      print('✅ Réponse du serveur: ${response.statusCode}');
+      print('📄 Données reçues: ${response.data}');
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print('❌ Erreur updateReceiptStatus: $e');
+      if (e is DioException) {
+        print('🔍 Détails de l\'erreur Dio:');
+        print('   - Type: ${e.type}');
+        print('   - Status: ${e.response?.statusCode}');
+        print('   - Message: ${e.response?.data}');
+        print('   - URL: ${e.requestOptions.uri}');
+      }
+      return false;
+    }
+  }
 }

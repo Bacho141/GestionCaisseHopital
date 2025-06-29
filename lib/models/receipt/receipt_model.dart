@@ -12,7 +12,7 @@ class Receipt {
   String totalInWords;
   double paid;
   double due;
-  
+
   // Infos société
   final String companyName;
   final String nif;
@@ -40,7 +40,20 @@ class Receipt {
 
   factory Receipt.fromMap(Map<String, dynamic> map) {
     print('↪️ Receipt.fromMap reçu : $map');
-      // Sécurité : s’assurer que map['client'] est un Map<String, dynamic>
+
+    // Gestion de l'incohérence entre receiptNumber et receiptNummber
+    String receiptNumber;
+    if (map.containsKey('receiptNumber')) {
+      receiptNumber = map['receiptNumber'] as String;
+    } else if (map.containsKey('receiptNummber')) {
+      receiptNumber = map['receiptNummber'] as String;
+      print('⚠️ Correction: receiptNummber -> receiptNumber: $receiptNumber');
+    } else {
+      throw Exception(
+          'Champ "receiptNumber" ou "receiptNummber" manquant dans la réponse');
+    }
+
+    // Sécurité : s'assurer que map['client'] est un Map<String, dynamic>
     final clientMap = map['client'];
     if (clientMap == null || clientMap is! Map) {
       throw Exception('Champ "client" manquant ou mal formé dans la réponse');
@@ -49,7 +62,7 @@ class Receipt {
     // Convertir proprement en Map<String, dynamic>
     final clientData = Map<String, dynamic>.from(clientMap as Map);
 
-      // Sécurité : map['produits'] doit être une List
+    // Sécurité : map['produits'] doit être une List
     final produitsList = map['produits'];
     if (produitsList == null || produitsList is! List) {
       throw Exception('Champ "produits" manquant ou mal formé dans la réponse');
@@ -59,10 +72,10 @@ class Receipt {
         .toList();
 
     return Receipt(
-      receiptNumber: map['receiptNumber'] as String,
+      receiptNumber: receiptNumber,
       dateTime: DateTime.parse(map['dateTime'] as String),
       client: Client.fromMap(clientData),
-    produits: produitsData,
+      produits: produitsData,
       total: (map['total'] as num).toDouble(),
       totalInWords: map['totalInWords'] as String,
       paid: (map['paid'] as num).toDouble(),

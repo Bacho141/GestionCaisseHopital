@@ -23,7 +23,6 @@ class ReceiptController extends GetxController {
   // RxList<String> availableCashiers = <String>[].obs;
   RxnString selectedCashier = RxnString();
 
-
   // Liste des reçus et état
   var receipts = <Receipt>[].obs;
   var isLoading = false.obs;
@@ -36,12 +35,13 @@ class ReceiptController extends GetxController {
   var filterProduct = RxnString();
   var filterStatus = RxnString(); // 'paid' ou 'due'
 
-  
-
   @override
   void onInit() {
     super.onInit();
-    loadReceipts();
+    // Ne pas charger automatiquement les reçus ici
+    // Le widget gérera le premier chargement avec les filtres appropriés
+    print(
+        '🔄 ReceiptController.onInit() - Initialisation sans chargement automatique');
   }
 
   /// Initialise un nouveau reçu avec les infos de base
@@ -70,9 +70,15 @@ class ReceiptController extends GetxController {
     final token = await _authMgr.getToken();
     print('▶ initNewReceipt() – token récupéré : $token');
     // String nomCaissier = _authCtrl.userName.value;
-    String nomCaissier = "Bachir";
-    if (token != null && JwtDecoder.decode(token)['id'] != null) {
-      nomCaissier = JwtDecoder.decode(token)['id'];
+    String nomCaissier = "Agent inconnu";
+    if (token != null && !JwtDecoder.isExpired(token)) {
+      final decoded = JwtDecoder.decode(token);
+      print('▶ initNewReceipt() – token décodé : $decoded');
+      // Utiliser le nom complet si disponible, sinon l'ID
+      nomCaissier = decoded['nomComplet'] ?? decoded['id'] ?? "Agent inconnu";
+      print('▶ initNewReceipt() – nomCaissier final : $nomCaissier');
+    } else {
+      print('▶ initNewReceipt() – token invalide ou expiré');
     }
 
     // Infos société en dur
@@ -227,13 +233,9 @@ class ReceiptController extends GetxController {
     );
   }
 
-  List<String> get availableCashiers => 
-  _agentCtrl.agents
-    .map((a) => '${a.nom} ${a.prenom}')
-    .toList();
-  
+  List<String> get availableCashiers =>
+      _agentCtrl.agents.map((a) => '${a.nom} ${a.prenom}').toList();
 
-  
   /// Liste de tous les produits (labels) uniques présents dans [receipts]
   List<String> get availableProducts {
     // on "aplatit" toutes les listes de produits, on prend leur label, on enlève les doublons
@@ -244,7 +246,6 @@ class ReceiptController extends GetxController {
         .toList();
   }
 
-
   Future<void> loadReceipts() async {
     final Map<String, String> params = {};
 
@@ -254,13 +255,13 @@ class ReceiptController extends GetxController {
       params['from'] = params['to'] = DateFormat('yyyy-MM-dd').format(d);
     } else if (filterFrom.value != null && filterTo.value != null) {
       params['from'] = DateFormat('yyyy-MM-dd').format(filterFrom.value!);
-      params['to']   = DateFormat('yyyy-MM-dd').format(filterTo.value!);
+      params['to'] = DateFormat('yyyy-MM-dd').format(filterTo.value!);
     }
 
     // --- Dropdowns ---
     if (filterCashier.value != null) params['cashier'] = filterCashier.value!;
-    if (filterProduct.value  != null) params['product']  = filterProduct.value!;
-    if (filterStatus.value   != null) params['status']   = filterStatus.value!;
+    if (filterProduct.value != null) params['product'] = filterProduct.value!;
+    if (filterStatus.value != null) params['status'] = filterStatus.value!;
 
     // **Debug print**
     print('▶ loadReceipts() – query params = $params');
@@ -284,7 +285,6 @@ The widget which was currently being built when the offending call was made was:
     }
   }
 
-
   /// Réinitialise tous les filtres
   void clearFilters() {
     filterDate.value = null;
@@ -301,6 +301,40 @@ The widget which was currently being built when the offending call was made was:
     final ok = await _receiptService.deleteReceipt(id);
     if (ok) {
       receipts.removeWhere((r) => r.receiptNumber == id);
+    }
+  }
+
+  /// Met à jour le statut d'un reçu (paid/due)
+  Future<bool> updateReceiptStatus(
+      String receiptNumber, double newPaid, double newDue) async {
+    try {
+      print(
+          '🔄 ReceiptController - Mise à jour du statut pour: $receiptNumber');
+      print('📊 Nouveaux montants - Paid: $newPaid, Due: $newDue');
+
+      final success = await _receiptService.updateReceiptStatus(
+          receiptNumber, newPaid, newDue);
+
+      if (success) {
+        print('✅ Mise à jour réussie, mise à jour de la liste locale');
+        // Mettre à jour le reçu dans la liste locale
+        final index =
+            receipts.indexWhere((r) => r.receiptNumber == receiptNumber);
+        if (index != -1) {
+          receipts[index].paid = newPaid;
+          receipts[index].due = newDue;
+          print('✅ Reçu mis à jour dans la liste locale à l\'index: $index');
+        } else {
+          print('⚠️ Reçu non trouvé dans la liste locale pour mise à jour');
+        }
+      } else {
+        print('❌ Échec de la mise à jour via l\'API');
+      }
+
+      return success;
+    } catch (e) {
+      print('❌ Erreur lors de la mise à jour du statut: $e');
+      return false;
     }
   }
 }

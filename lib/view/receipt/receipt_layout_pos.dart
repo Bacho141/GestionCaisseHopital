@@ -248,7 +248,7 @@ class POSReceipt extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Text('${receipt.nomCaissier}\nLe Caissier',
+            child: Text('Caissier:\n${receipt.nomCaissier}',
                 textAlign: TextAlign.center),
           ),
           _buildSeparator('='),

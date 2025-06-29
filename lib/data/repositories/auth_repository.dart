@@ -15,8 +15,9 @@ class AuthRepository {
     return user;
   }
 
-  Future<User> signup(String name, String email, String password) async {
-    final user = await api.signup(name, email, password);
+  Future<User> signup(
+      String firstname, String name, String email, String password) async {
+    final user = await api.signup(firstname, name, email, password);
     // storage.write('user', user.toJson());
     // storage.write('jwt', user.token);
     print("INSCRIPTION : $user");

@@ -2,7 +2,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:migo/layout/layout.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-
+import 'package:get/get.dart';
+import 'package:migo/service/settings_service.dart';
+import 'package:migo/models/authManager.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Vendor {
   Vendor(this.name, this.email);
@@ -21,16 +24,27 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late TextEditingController firstnameController = TextEditingController(text: "Bachir");
-  late TextEditingController nameController = TextEditingController(text: "Sadda");
-  late TextEditingController emailController = TextEditingController(text: "mbacho.web45@gmail.com");
+  late TextEditingController firstnameController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
   late TextEditingController oldPasswordController = TextEditingController();
   late TextEditingController newPasswordController = TextEditingController();
+
+  final SettingsService _settingsService = Get.put(SettingsService());
+  final AuthenticationManager _authMgr = Get.find<AuthenticationManager>();
+
+  // États pour l'édition
+  bool isEditingFirstname = false;
+  bool isEditingName = false;
+  bool isEditingEmail = false;
+  bool isLoading = false;
+  bool isLoadingPassword = false;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 1, vsync: this);
+    _loadUserProfile();
   }
 
   @override
@@ -44,7 +58,124 @@ class _SettingsPageState extends State<SettingsPage>
     super.dispose();
   }
 
+  /// Charge le profil utilisateur depuis le backend
+  Future<void> _loadUserProfile() async {
+    setState(() => isLoading = true);
+
+    try {
+      final profile = await _settingsService.getProfile();
+      if (profile != null) {
+        setState(() {
+          firstnameController.text = profile['firstname'] ?? '';
+          nameController.text = profile['name'] ?? '';
+          emailController.text = profile['email'] ?? '';
+        });
+      } else {
+        // Fallback: essayer de récupérer depuis le token JWT
+        final token = await _authMgr.getToken();
+        if (token != null && !JwtDecoder.isExpired(token)) {
+          final decoded = JwtDecoder.decode(token);
+          setState(() {
+            firstnameController.text = decoded['firstname'] ?? '';
+            nameController.text = decoded['name'] ?? '';
+            emailController.text = decoded['email'] ?? '';
+          });
+        }
+      }
+    } catch (e) {
+      print('Erreur chargement profil: $e');
+      Get.snackbar(
+        'Erreur',
+        'Erreur de connexion au backend',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  /// Sauvegarde le profil utilisateur
+  Future<void> _saveProfile() async {
+    // Validation côté client
+    if (firstnameController.text.trim().isEmpty ||
+        nameController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty) {
+      Get.snackbar(
+        'Erreur',
+        'Tous les champs sont requis',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    // Validation email
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+        .hasMatch(emailController.text.trim())) {
+      Get.snackbar(
+        'Erreur',
+        'Format d\'email invalide',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final success = await _settingsService.updateProfile(
+        firstname: firstnameController.text.trim(),
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+      );
+
+      if (success) {
+        Get.snackbar(
+          'Succès',
+          'Profile updated successfully!',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+
+        // Désactiver l'édition
+        setState(() {
+          isEditingFirstname = false;
+          isEditingName = false;
+          isEditingEmail = false;
+        });
+      } else {
+        Get.snackbar(
+          'Erreur',
+          'Erreur lors de la sauvegarde',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Erreur',
+        'Erreur de connexion au backend',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
   void _showPasswordChangeModal() {
+    // Réinitialiser les contrôleurs
+    oldPasswordController.clear();
+    newPasswordController.clear();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -57,10 +188,77 @@ class _SettingsPageState extends State<SettingsPage>
           child: ContentBox(
             oldPasswordController: oldPasswordController,
             newPasswordController: newPasswordController,
+            onSavePassword: _changePassword,
+            isLoading: isLoadingPassword,
           ),
         );
       },
     );
+  }
+
+  /// Change le mot de passe
+  Future<void> _changePassword() async {
+    if (oldPasswordController.text.trim().isEmpty ||
+        newPasswordController.text.trim().isEmpty) {
+      Get.snackbar(
+        'Erreur',
+        'Tous les champs sont requis',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    // Validation du nouveau mot de passe
+    if (newPasswordController.text.length < 6) {
+      Get.snackbar(
+        'Erreur',
+        'Le nouveau mot de passe doit contenir au moins 6 caractères',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    setState(() => isLoadingPassword = true);
+
+    try {
+      final result = await _settingsService.changePassword(
+        oldPassword: oldPasswordController.text.trim(),
+        newPassword: newPasswordController.text.trim(),
+      );
+
+      if (result['success']) {
+        Navigator.of(context).pop(); // Fermer le modal
+        Get.snackbar(
+          'Succès',
+          result['message'],
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+      } else {
+        Get.snackbar(
+          'Erreur',
+          result['message'],
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Erreur',
+        'Erreur de connexion au backend',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+    } finally {
+      setState(() => isLoadingPassword = false);
+    }
   }
 
   @override
@@ -113,7 +311,8 @@ class _SettingsPageState extends State<SettingsPage>
                             size: 18,
                           ),
                           SizedBox(width: 8),
-                          Text("Profile Settings", style: TextStyle(fontWeight: FontWeight.w500)),
+                          Text("Profile Settings",
+                              style: TextStyle(fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -135,7 +334,7 @@ class _SettingsPageState extends State<SettingsPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(height: 20),
-                          
+
                           // Profile avatar
                           Stack(
                             alignment: Alignment.bottomRight,
@@ -186,34 +385,59 @@ class _SettingsPageState extends State<SettingsPage>
                               ),
                             ],
                           ),
-                          
+
                           const SizedBox(height: 30),
-                          
+
+                          // Loading indicator
+                          if (isLoading)
+                            const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color(0xFF6A5AE0)),
+                              ),
+                            ),
+
                           // Form fields
-                          _buildInputField(
-                            controller: firstnameController,
-                            label: "Prénom",
-                            icon: Iconsax.user,
-                          ),
-                          
-                          const SizedBox(height: 20),
-                          
-                          _buildInputField(
-                            controller: nameController,
-                            label: "Nom",
-                            icon: Iconsax.user_edit,
-                          ),
-                          
-                          const SizedBox(height: 20),
-                          
-                          _buildInputField(
-                            controller: emailController,
-                            label: "Email",
-                            icon: Iconsax.sms,
-                          ),
-                          
+                          if (!isLoading) ...[
+                            _buildInputField(
+                              controller: firstnameController,
+                              label: "Prénom",
+                              icon: Iconsax.user,
+                              isEditing: isEditingFirstname,
+                              onEditToggle: () {
+                                setState(() {
+                                  isEditingFirstname = !isEditingFirstname;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            _buildInputField(
+                              controller: nameController,
+                              label: "Nom",
+                              icon: Iconsax.user_edit,
+                              isEditing: isEditingName,
+                              onEditToggle: () {
+                                setState(() {
+                                  isEditingName = !isEditingName;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            _buildInputField(
+                              controller: emailController,
+                              label: "Email",
+                              icon: Iconsax.sms,
+                              isEditing: isEditingEmail,
+                              onEditToggle: () {
+                                setState(() {
+                                  isEditingEmail = !isEditingEmail;
+                                });
+                              },
+                            ),
+                          ],
+
                           const SizedBox(height: 32),
-                          
+
                           // Password button
                           MouseRegion(
                             cursor: SystemMouseCursors.click,
@@ -223,7 +447,8 @@ class _SettingsPageState extends State<SettingsPage>
                                 onPressed: () {
                                   _showPasswordChangeModal();
                                 },
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -234,7 +459,7 @@ class _SettingsPageState extends State<SettingsPage>
                                     ),
                                     SizedBox(width: 12),
                                     Text(
-                                      "Change Password",
+                                      "Changer le  mot de passe",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
@@ -246,47 +471,47 @@ class _SettingsPageState extends State<SettingsPage>
                               ),
                             ),
                           ),
-                          
+
                           const SizedBox(height: 32),
-                          
+
                           // Save button
                           SizedBox(
                             width: double.infinity,
                             child: NeumorphicButton(
                               style: NeumorphicStyle(
                                 depth: 0,
-                                boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                                boxShape: NeumorphicBoxShape.roundRect(
+                                    BorderRadius.circular(12)),
                                 color: Color(0xFF6A5AE0),
                               ),
-                              onPressed: () {
-                                // Save profile logic
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    width: 500,
-                                    content: const Text(
-                                      'Profile updated successfully!',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                );
-                              },
+                              onPressed: isLoading ? null : _saveProfile,
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Iconsax.tick_circle,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 12),
+                                  if (isLoading)
+                                    const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                      ),
+                                    )
+                                  else
+                                    const Icon(
+                                      Iconsax.tick_circle,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  const SizedBox(width: 12),
                                   Text(
-                                    "Save Changes",
-                                    style: TextStyle(
+                                    isLoading
+                                        ? "Sauvegarde..."
+                                        : "Save Changes",
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -313,6 +538,8 @@ class _SettingsPageState extends State<SettingsPage>
     required TextEditingController controller,
     required String label,
     required IconData icon,
+    required bool isEditing,
+    required VoidCallback onEditToggle,
   }) {
     return Neumorphic(
       style: NeumorphicStyle(
@@ -333,16 +560,18 @@ class _SettingsPageState extends State<SettingsPage>
           Expanded(
             child: TextField(
               controller: controller,
-              style: const TextStyle(
-                color: Colors.black87,
+              enabled: isEditing,
+              style: TextStyle(
+                color: isEditing ? Colors.black87 : Colors.black54,
               ),
               decoration: InputDecoration(
                 labelText: label,
-                labelStyle: const TextStyle(
-                  color: Colors.black45,
+                labelStyle: TextStyle(
+                  color: isEditing ? Colors.black45 : Colors.black38,
                 ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               ),
             ),
           ),
@@ -352,26 +581,27 @@ class _SettingsPageState extends State<SettingsPage>
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(30),
-              onTap: () {
-                // Edit field logic
-              },
+              onTap: onEditToggle,
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF6A5AE0), Color(0xFF8D7BFF)],
+                  gradient: LinearGradient(
+                    colors: isEditing
+                        ? [Colors.green, Colors.green.shade400]
+                        : [Color(0xFF6A5AE0), Color(0xFF8D7BFF)],
                   ),
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF6A5AE0).withOpacity(0.3),
+                      color: (isEditing ? Colors.green : Color(0xFF6A5AE0))
+                          .withOpacity(0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
                   ],
                 ),
-                child: const Icon(
-                  Iconsax.edit,
+                child: Icon(
+                  isEditing ? Icons.check : Iconsax.edit,
                   color: Colors.white,
                   size: 16,
                 ),
@@ -414,15 +644,16 @@ class _HoverNeumorphicButtonState extends State<_HoverNeumorphicButton> {
           intensity: isHovered ? 0.9 : 0.8,
           boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
           color: isHovered ? const Color(0xFFF5F5FF) : Colors.white,
-          border: isHovered 
-            ? const NeumorphicBorder(
-                color: Color(0xFFD9D6FF),
-                width: 1,
-              ) 
-            : const NeumorphicBorder( // Ajout d'une bordure par défaut
-          color: Colors.transparent, // Bordure invisible
-          width: 0,
-        ),
+          border: isHovered
+              ? const NeumorphicBorder(
+                  color: Color(0xFFD9D6FF),
+                  width: 1,
+                )
+              : const NeumorphicBorder(
+                  // Ajout d'une bordure par défaut
+                  color: Colors.transparent, // Bordure invisible
+                  width: 0,
+                ),
         ),
         onPressed: widget.onPressed,
         padding: widget.padding as EdgeInsets?,
@@ -436,11 +667,15 @@ class _HoverNeumorphicButtonState extends State<_HoverNeumorphicButton> {
 class ContentBox extends StatelessWidget {
   final TextEditingController oldPasswordController;
   final TextEditingController newPasswordController;
+  final VoidCallback onSavePassword;
+  final bool isLoading;
 
   const ContentBox({
     Key? key,
     required this.oldPasswordController,
     required this.newPasswordController,
+    required this.onSavePassword,
+    required this.isLoading,
   }) : super(key: key);
 
   @override
@@ -488,25 +723,25 @@ class ContentBox extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            
+
             // Old Password Field
             _buildPasswordField(
               controller: oldPasswordController,
               label: "Ancien mot de passe",
               isOldPassword: true,
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // New Password Field
             _buildPasswordField(
               controller: newPasswordController,
               label: "Nouveau mot de passe",
               isOldPassword: false,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Save Button
             SizedBox(
               width: double.infinity,
@@ -531,22 +766,7 @@ class ContentBox extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     onTap: () {
                       // Save password logic here
-                      Navigator.of(context).pop();
-                      
-                      // Show confirmation
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          width: 500,
-                          content: const Text(
-                            'Password changed successfully!',
-                            textAlign: TextAlign.center,
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
+                      onSavePassword();
                     },
                     child: const Center(
                       child: Row(
@@ -612,7 +832,8 @@ class ContentBox extends StatelessWidget {
                   color: Colors.black45,
                 ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               ),
             ),
           ),
@@ -621,4 +842,3 @@ class ContentBox extends StatelessWidget {
     );
   }
 }
-
