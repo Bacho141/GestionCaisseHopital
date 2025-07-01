@@ -38,22 +38,85 @@ class _AgentLoginViewState extends State<AgentLoginView> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: true,
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 255, 255, 255),
-                Color.fromARGB(255, 74, 231, 158),
-              ],
+        body: Stack(
+          children: [
+            // 1) Le gradient de fond plein écran
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromARGB(255, 255, 255, 255),
+                    Color.fromARGB(255, 74, 231, 158),
+                  ],
+                ),
+              ),
             ),
-          ),
-          child: Responsive(
-            desktop: _buildLargeScreen(size, simpleUIController),
-            mobile: _buildSmallScreen(size, simpleUIController),
-          ),
+
+            // 2) Le contenu avec gestion intelligente du clavier
+            // SafeArea(
+            //   child: LayoutBuilder(
+            //     builder: (context, constraints) {
+            //       final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+            //       final availableHeight = constraints.maxHeight - keyboardHeight;
+                  
+            //       return SingleChildScrollView(
+            //         // Suppression du reverse: true qui causait le problème
+            //         physics: const ClampingScrollPhysics(),
+            //         child: Container(
+            //           // Hauteur minimale pour éviter le déplacement brusque
+            //           constraints: BoxConstraints(
+            //             minHeight: availableHeight,
+            //           ),
+            //           child: Center(
+            //             child: ConstrainedBox(
+            //               constraints: const BoxConstraints(
+            //                 maxWidth: 400,
+            //               ),
+            //               child: Responsive(
+            //                 desktop: _buildLargeScreen(size, simpleUIController, keyboardHeight),
+            //                 mobile: _buildSmallScreen(size, simpleUIController, keyboardHeight, availableHeight),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
+            SafeArea(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+                  final availableHeight = constraints.maxHeight - keyboardHeight;
+                  
+                  return SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        minHeight: availableHeight,
+                      ),
+                      child: Responsive.isDesktop(context) 
+                        ? _buildLargeScreen(size, simpleUIController, keyboardHeight)  // Pas de Center ni ConstrainedBox pour desktop
+                        : Center(  // Center seulement pour mobile
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 400,  // Contrainte seulement pour mobile
+                              ),
+                              child: _buildSmallScreen(size, simpleUIController, keyboardHeight, availableHeight),
+                            ),
+                          ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -63,22 +126,36 @@ class _AgentLoginViewState extends State<AgentLoginView> {
   Widget _buildLargeScreen(
     Size size,
     SimpleUIController simpleUIController,
+    double keyboardHeight,
   ) {
     return Row(
       children: [
         Expanded(
-          flex: 2, // 75% de l'espace
-          child: _buildMainBody(size, simpleUIController),
+          flex: 2,
+          child: _buildMainBody(size, simpleUIController, keyboardHeight, size.height),
         ),
+        // Expanded(
+        //   flex: 2,
+        //   child: Image.asset(
+        //     'assets/side_image.png',
+        //     height: size.height * 1,
+        //     width: double.infinity,
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         Expanded(
-          flex: 2, // 25% de l'espace
-          child: Image.asset(
-            'assets/side_image.png',
-            height: size.height * 1,
-            width: double.infinity,
-            fit: BoxFit.cover,
+          flex: 2,
+          child: Container(
+            color: Colors.grey[200], // 👈 mets ici la couleur de fond désirée
+            child: Image.asset(
+              'assets/side_image.png',
+              height: size.height * 1,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
+
       ],
     );
   }
@@ -87,18 +164,16 @@ class _AgentLoginViewState extends State<AgentLoginView> {
   Widget _buildSmallScreen(
     Size size,
     SimpleUIController simpleUIController,
+    double keyboardHeight,
+    double availableHeight,
   ) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 210.0,
-          ),
-          child: _buildMainBody(size, simpleUIController),
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.0,
+        // Padding vertical adaptatif selon la présence du clavier
+        vertical: keyboardHeight > 0 ? 5.0 : 30.0,
       ),
+      child: _buildMainBody(size, simpleUIController, keyboardHeight, availableHeight),
     );
   }
 
@@ -106,28 +181,40 @@ class _AgentLoginViewState extends State<AgentLoginView> {
   Widget _buildMainBody(
     Size size,
     SimpleUIController simpleUIController,
+    double keyboardHeight,
+    double availableHeight,
   ) {
     final isDesktop = Responsive.isDesktop(context);
     final isMobile = Responsive.isMobile(context);
+    
+    // Ajustement de la taille du logo selon la présence du clavier
+    final logoHeight = isMobile 
+        ? (keyboardHeight > 0 ? 100.0 : 150.0)  // Logo plus petit quand clavier ouvert
+        : null;
+    
+    final logoWidth = isDesktop 
+        ? size.width / 6 
+        : (keyboardHeight > 0 ? size.width / 3 : size.width / 2);  // Logo plus petit quand clavier ouvert
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: keyboardHeight > 0 
+          ? MainAxisAlignment.start  // Alignement en haut quand clavier ouvert
+          : MainAxisAlignment.center,  // Centré quand clavier fermé
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Ajustement dynamique basé sur la présence du clavier
-        SizedBox(
-          height: MediaQuery.of(context).viewInsets.bottom > 0 ? 10 : 40
-        ),
+        // Espacement adaptatif en haut
+        SizedBox(height: keyboardHeight > 0 ? 10 : 20),
 
-        // Logo et titre
+        // Logo avec taille adaptative
         Center(
           child: Image.asset(
             'assets/Logo_CV01.png',
-            width: isDesktop ? size.width / 6 : size.width / 2,
-            height: isMobile ? 150 : null,
+            width: logoWidth,
+            height: logoHeight,
           ),
         ),
-        SizedBox(height: isMobile ? 15 : 15),
+        SizedBox(height: keyboardHeight > 0 ? 10 : 15),
+        
         Text(
           'Connexion Agent 😊',
           style: TextStyle(
@@ -137,7 +224,7 @@ class _AgentLoginViewState extends State<AgentLoginView> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: isMobile ? 15 : 20),
+        SizedBox(height: keyboardHeight > 0 ? 10 : 20),
 
         // Formulaire dans un SizedBox avec ombre
         Center(
@@ -317,9 +404,9 @@ class _AgentLoginViewState extends State<AgentLoginView> {
             ),
           ),
         ),
-        // Espacement en bas qui s'ajuste selon la présence du clavier
-        SizedBox(
-            height: MediaQuery.of(context).viewInsets.bottom > 0 ? 20 : 40),
+        
+        // Espacement en bas adaptatif
+        SizedBox(height: keyboardHeight > 0 ? 5 : 40),
       ],
     );
   }

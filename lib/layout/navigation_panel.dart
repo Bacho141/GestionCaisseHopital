@@ -7,7 +7,6 @@ import 'package:migo/view/home/home_dashboard.dart';
 import 'package:migo/view/receipt/create_receipt.dart';
 import 'package:migo/view/servicemedical/servicemedical_page.dart';
 import 'package:migo/view/history/receipt_history.dart';
-import 'package:migo/view/analytics/analyticspage.dart';
 import 'package:migo/view/responsive.dart';
 import 'package:migo/view/settings/settingspage.dart';
 
@@ -102,12 +101,12 @@ class _NavigationPanelState extends State<NavigationPanel> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-
                           // ── DASHBOARD (Admin seulement) ──
                           if (isAdmin)
                             _buildNavButton(
                               icon: NavigationItems.dashboard.icon,
-                              isActive: widget.activeTab == NavigationItems.dashboard.index,
+                              isActive: widget.activeTab ==
+                                  NavigationItems.dashboard.index,
                               tooltip: NavigationItems.dashboard.name,
                               onPressed: () {
                                 Get.to(
@@ -120,7 +119,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                           // ── CREATE RECEIPT (Tous) ──
                           _buildNavButton(
                             icon: NavigationItems.receipts.icon,
-                            isActive: widget.activeTab == NavigationItems.receipts.index,
+                            isActive: widget.activeTab ==
+                                NavigationItems.receipts.index,
                             tooltip: "Reçu",
                             onPressed: () {
                               Get.to(
@@ -133,7 +133,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                           // ── PRODUCTS (Tous) ──
                           _buildNavButton(
                             icon: NavigationItems.products.icon,
-                            isActive: widget.activeTab == NavigationItems.products.index,
+                            isActive: widget.activeTab ==
+                                NavigationItems.products.index,
                             tooltip: "Services",
                             onPressed: () {
                               Get.to(
@@ -146,7 +147,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                           // ── HISTORICS (Tous) ──
                           _buildNavButton(
                             icon: NavigationItems.historics.icon,
-                            isActive: widget.activeTab == NavigationItems.historics.index,
+                            isActive: widget.activeTab ==
+                                NavigationItems.historics.index,
                             tooltip: "Historiques",
                             onPressed: () {
                               Get.to(
@@ -157,18 +159,19 @@ class _NavigationPanelState extends State<NavigationPanel> {
                           ),
 
                           // ── ANALYTICS (Admin seulement) ──
-                          if (isAdmin)
-                            _buildNavButton(
-                              icon: NavigationItems.analytics.icon,
-                              isActive: widget.activeTab == NavigationItems.analytics.index,
-                              tooltip: "Analyse",
-                              onPressed: () {
-                                Get.to(
-                                  () => const AnalyticsPage(),
-                                  transition: Transition.noTransition,
-                                );
-                              },
-                            ),
+                          // if (isAdmin)
+                          //   _buildNavButton(
+                          //     icon: NavigationItems.analytics.icon,
+                          //     isActive: widget.activeTab ==
+                          //         NavigationItems.analytics.index,
+                          //     tooltip: "Analyse",
+                          //     onPressed: () {
+                          //       Get.to(
+                          //         () => const AnalyticsPage(),
+                          //         transition: Transition.noTransition,
+                          //       );
+                          //     },
+                          //   ),
                         ],
                       ),
                     ),
@@ -228,7 +231,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                     if (isAdmin)
                       _buildMobileNavItem(
                         icon: NavigationItems.dashboard.icon,
-                        isActive: widget.activeTab == NavigationItems.dashboard.index,
+                        isActive:
+                            widget.activeTab == NavigationItems.dashboard.index,
                         onPressed: () {
                           Get.to(
                             () => const DashboardPage(),
@@ -240,7 +244,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                     // ── CREATE RECEIPT (Tous) ──
                     _buildMobileNavItem(
                       icon: NavigationItems.receipts.icon,
-                      isActive: widget.activeTab == NavigationItems.receipts.index,
+                      isActive:
+                          widget.activeTab == NavigationItems.receipts.index,
                       onPressed: () {
                         Get.to(
                           () => const CreateReceipt(),
@@ -252,7 +257,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                     // ── PRODUCTS (Tous) ──
                     _buildMobileNavItem(
                       icon: NavigationItems.products.icon,
-                      isActive: widget.activeTab == NavigationItems.products.index,
+                      isActive:
+                          widget.activeTab == NavigationItems.products.index,
                       onPressed: () {
                         Get.to(
                           () => const ProductsPage(),
@@ -265,7 +271,8 @@ class _NavigationPanelState extends State<NavigationPanel> {
                     if (!isAdmin)
                       _buildMobileNavItem(
                         icon: NavigationItems.historics.icon,
-                        isActive: widget.activeTab == NavigationItems.historics.index,
+                        isActive:
+                            widget.activeTab == NavigationItems.historics.index,
                         onPressed: () {
                           Get.to(
                             () => const ReceiptHistory(),
@@ -275,17 +282,17 @@ class _NavigationPanelState extends State<NavigationPanel> {
                       ),
 
                     // ── ANALYTICS (Admin seulement) ──
-                    if (isAdmin)
-                      _buildMobileNavItem(
-                        icon: NavigationItems.analytics.icon,
-                        isActive: widget.activeTab == NavigationItems.analytics.index,
-                        onPressed: () {
-                          Get.to(
-                            () => const AnalyticsPage(),
-                            transition: Transition.noTransition,
-                          );
-                        },
-                      ),
+                    // if (isAdmin)
+                    //   _buildMobileNavItem(
+                    //     icon: NavigationItems.analytics.icon,
+                    //     isActive: widget.activeTab == NavigationItems.analytics.index,
+                    //     onPressed: () {
+                    //       Get.to(
+                    //         () => const AnalyticsPage(),
+                    //         transition: Transition.noTransition,
+                    //       );
+                    //     },
+                    //   ),
 
                     // ── SETTINGS (Admin seulement) ──
                     if (isAdmin)
